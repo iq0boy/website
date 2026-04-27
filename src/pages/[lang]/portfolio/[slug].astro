@@ -1,0 +1,95 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+import { TRANSLATIONS, localePath } from '../../../lib/i18n';
+import type { Lang } from '../../../lib/i18n';
+
+export async function getStaticPaths() {
+  const langs: Lang[] = ['en', 'nl'];
+  const results = await Promise.all(
+    langs.map(async lang => {
+      const projects = await getCollection('projects', ({ id }) => id.startsWith(lang + '/'));
+      return projects.map(project => ({
+        params: { lang, slug: project.id.split('/').slice(1).join('/') },
+        props: { lang, project },
+      }));
+    })
+  );
+  return results.flat();
+}
+
+const { lang, project } = Astro.props;
+const { Content } = await render(project);
+
+const t = (key: string) => (TRANSLATIONS[lang] as Record<string, string>)[key] ?? key;
+const lp = (path: string) => localePath(lang, path);
+
+const portfolioListUrl = `https://josephpire.dev${localePath(lang, '/portfolio')}/`;
+
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Joseph Pire", "item": "https://josephpire.dev" },
+    { "@type": "ListItem", "position": 2, "name": t('nav_portfolio'), "item": portfolioListUrl },
+    { "@type": "ListItem", "position": 3, "name": project.data.title, "item": `https://josephpire.dev${Astro.url.pathname}` },
+  ],
+};
+---
+
+<Layout
+  title={`${project.data.title} — Joseph Pire`}
+  description={project.data.excerpt}
+  currentPage="portfolio"
+  lang={lang}
+  structuredData={breadcrumbLd}
+>
+  <div class="page-wrapper">
+    <section style="padding-top: clamp(140px, 20vh, 200px); padding-bottom: 60px;">
+      <div style="max-width: 800px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 80px);">
+
+        <a href={lp('/portfolio')} style="color: var(--accent); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 40px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          {t('back_to_portfolio')}
+        </a>
+
+        <div style="margin-top: 40px; margin-bottom: 24px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <span style="font-family: var(--font-mono); font-size: 0.7rem; padding: 4px 10px; background: var(--bg-tertiary); color: var(--accent);">{project.data.category}</span>
+          <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);">{project.data.year}</span>
+          {project.data.tags.map(tag => (
+            <span style="font-family: var(--font-mono); font-size: 0.65rem; padding: 3px 8px; background: var(--bg-tertiary); color: var(--text-muted);">{tag}</span>
+          ))}
+        </div>
+
+        <h1 style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; margin-bottom: 24px;">{project.data.title}</h1>
+
+        <div style={`height: 3px; background: ${project.data.color}; margin-bottom: 40px;`}></div>
+
+        {(project.data.liveUrl || project.data.githubUrl) && (
+          <div style="display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap;">
+            {project.data.liveUrl && (
+              <a href={project.data.liveUrl} target="_blank" rel="noopener noreferrer" class="btn-outline" style="font-size: 0.8rem; padding: 10px 20px;">{t('view_live')} ↗</a>
+            )}
+            {project.data.githubUrl && (
+              <a href={project.data.githubUrl} target="_blank" rel="noopener noreferrer" class="btn-outline" style="font-size: 0.8rem; padding: 10px 20px;">{t('view_code')} ↗</a>
+            )}
+          </div>
+        )}
+
+        <p style="margin-bottom: 40px; font-size: 1.15rem; color: var(--text-primary); line-height: 1.7;">{project.data.excerpt}</p>
+
+        <div class="prose">
+          <Content />
+        </div>
+
+        <div class="divider" style="margin: 60px 0;"></div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
+          <a href={lp('/portfolio')} class="btn-outline" style="font-size: 0.85rem; padding: 12px 24px;">{t('all_projects_link')}</a>
+          <a href={lp('/contact')} class="btn-outline" style="font-size: 0.85rem; padding: 12px 24px;">{t('discuss_project')}</a>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</Layout>

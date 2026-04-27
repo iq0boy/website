@@ -1,0 +1,92 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+import { TRANSLATIONS, localePath } from '../../lib/i18n';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ id }) => id.startsWith('fr/'));
+  return posts.map(post => ({
+    params: { slug: post.id.split('/').slice(1).join('/') },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const lang = 'fr';
+const t = (key: string) => (TRANSLATIONS[lang] as Record<string, string>)[key] ?? key;
+const lp = (path: string) => localePath(lang, path);
+const date = post.data.pubDate.toLocaleDateString('fr-BE', { day: 'numeric', month: 'long', year: 'numeric' });
+
+const slug = post.id.split('/').slice(1).join('/');
+
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Joseph Pire", "item": "https://josephpire.dev" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://josephpire.dev/blog/" },
+    { "@type": "ListItem", "position": 3, "name": post.data.title, "item": `https://josephpire.dev${Astro.url.pathname}` },
+  ],
+};
+
+const articleLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.data.title,
+  "description": post.data.excerpt,
+  "datePublished": post.data.pubDate.toISOString(),
+  "inLanguage": "fr",
+  "author": { "@type": "Person", "name": "Joseph Pire", "url": "https://josephpire.dev" },
+  "publisher": { "@type": "Person", "name": "Joseph Pire", "url": "https://josephpire.dev" },
+  "url": `https://josephpire.dev${Astro.url.pathname}`,
+};
+---
+
+<Layout
+  title={`${post.data.title} — Joseph Pire`}
+  description={post.data.excerpt}
+  currentPage="blog"
+  lang="fr"
+  type="article"
+  pubDate={post.data.pubDate}
+  ogImage={`/blog/${slug}-og.png`}
+  structuredData={[articleLd, breadcrumbLd]}
+>
+  <div class="page-wrapper">
+    <section style="padding-top: clamp(140px, 20vh, 200px); padding-bottom: 60px;">
+      <div style="max-width: 800px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 80px);">
+
+        <a href={lp('/blog')} style="color: var(--accent); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 40px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          {t('back_to_blog')}
+        </a>
+
+        <div style="margin-top: 40px; margin-bottom: 24px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+          <span style="font-family: var(--font-mono); font-size: 0.7rem; padding: 4px 10px; background: var(--bg-tertiary); color: var(--accent);">{post.data.category}</span>
+          <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);">{date}</span>
+          <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);">{post.data.readTime} {t('read')}</span>
+        </div>
+
+        <h1 style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; margin-bottom: 40px;">{post.data.title}</h1>
+
+        <div class="divider" style="margin-bottom: 40px;"></div>
+
+        <p style="margin-bottom: 32px; font-size: 1.15rem; color: var(--text-primary); line-height: 1.7;">{post.data.excerpt}</p>
+
+        <div class="prose">
+          <Content />
+        </div>
+
+        <div class="divider" style="margin: 60px 0;"></div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
+          <a href={lp('/blog')} class="btn-outline" style="font-size: 0.85rem; padding: 12px 24px;">{t('all_articles')}</a>
+          <a href={lp('/contact')} class="btn-outline" style="font-size: 0.85rem; padding: 12px 24px;">{t('discuss_this')}</a>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</Layout>

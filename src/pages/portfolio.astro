@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PortfolioContent from '../components/pages/PortfolioContent';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects', ({ id }) => id.startsWith('fr/'));
+const projects = allProjects
+  .sort((a, b) => b.data.year.localeCompare(a.data.year))
+  .map(p => ({
+    slug: p.id.split('/').slice(1).join('/').replace(/\.md$/, ''),
+    title: p.data.title,
+    excerpt: p.data.excerpt,
+    category: p.data.category,
+    tags: p.data.tags,
+    year: p.data.year,
+    color: p.data.color,
+  }));
+---
+
+<Layout
+  title="Projets — Joseph Pire"
+  description="Projets sélectionnés de Joseph Pire : plateformes e-commerce, dashboards SaaS, apps mobiles, outils IA et plus. Développement full-stack et design."
+  currentPage="portfolio"
+  lang="fr"
+>
+  <PortfolioContent lang="fr" projects={projects} client:visible />
+</Layout>

@@ -1,0 +1,39 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import BlogContent from '../../../components/pages/BlogContent';
+import { getCollection } from 'astro:content';
+import type { Lang } from '../../../lib/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' }, props: { lang: 'en' as Lang } },
+    { params: { lang: 'nl' }, props: { lang: 'nl' as Lang } },
+  ];
+}
+
+const { lang } = Astro.props;
+
+const locales: Record<Lang, string> = { fr: 'fr-BE', en: 'en-US', nl: 'nl-BE' };
+
+const allPosts = await getCollection('blog', ({ id }) => id.startsWith(lang + '/'));
+const posts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .map(p => ({
+    slug: p.id.split('/').slice(1).join('/'),
+    title: p.data.title,
+    excerpt: p.data.excerpt,
+    category: p.data.category,
+    readTime: p.data.readTime,
+    date: p.data.pubDate.toLocaleDateString(locales[lang], { day: 'numeric', month: 'short', year: 'numeric' }),
+  }));
+
+const descs: Record<Lang, string> = {
+  fr: '',
+  en: 'Joseph Pire writes about web development, design, AI, and the craft of building digital products.',
+  nl: 'Joseph Pire schrijft over webontwikkeling, design, AI en het maken van digitale producten.',
+};
+---
+
+<Layout title="Blog — Joseph Pire" description={descs[lang]} currentPage="blog" lang={lang}>
+  <BlogContent lang={lang} posts={posts} client:visible />
+</Layout>

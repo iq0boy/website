@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BlogContent from '../../components/pages/BlogContent';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ id }) => id.startsWith('fr/'));
+const posts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .map(p => ({
+    slug: p.id.split('/').slice(1).join('/'),
+    title: p.data.title,
+    excerpt: p.data.excerpt,
+    category: p.data.category,
+    readTime: p.data.readTime,
+    date: p.data.pubDate.toLocaleDateString('fr-BE', { day: 'numeric', month: 'short', year: 'numeric' }),
+  }));
+---
+
+<Layout
+  title="Blog — Joseph Pire"
+  description="Joseph Pire écrit sur le développement web, le design, l'IA et l'art de construire des produits digitaux."
+  currentPage="blog"
+  lang="fr"
+>
+  <BlogContent lang="fr" posts={posts} client:visible />
+</Layout>

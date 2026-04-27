@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import HomeContent from '../components/pages/HomeContent';
+---
+
+<Layout
+  title="Joseph Pire — Développeur Full-Stack & Designer"
+  description="Joseph Pire est un développeur full-stack et designer basé en Belgique, créant des solutions web élégantes et performantes."
+  currentPage="home"
+  lang="fr"
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Joseph Pire",
+    "url": "https://josephpire.dev",
+    "email": "hello@josephpire.dev",
+    "jobTitle": "Développeur Full-Stack & Designer",
+    "address": { "@type": "PostalAddress", "addressCountry": "BE", "addressLocality": "Belgique" },
+    "sameAs": [
+      "https://github.com/iq0boy",
+      // Ajouter ici LinkedIn, Twitter/X, Dribbble...
+    ],
+  }}
+>
+  <HomeContent lang="fr" client:load />
+</Layout>

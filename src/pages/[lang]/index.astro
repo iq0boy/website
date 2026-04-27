@@ -1,0 +1,52 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import HomeContent from '../../components/pages/HomeContent';
+import type { Lang } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' }, props: { lang: 'en' as Lang } },
+    { params: { lang: 'nl' }, props: { lang: 'nl' as Lang } },
+  ];
+}
+
+const { lang } = Astro.props;
+
+const titles: Record<Lang, string> = {
+  fr: 'Joseph Pire — Développeur Full-Stack & Designer',
+  en: 'Joseph Pire — Full-Stack Developer & Designer',
+  nl: 'Joseph Pire — Full-Stack Developer & Designer',
+};
+const descs: Record<Lang, string> = {
+  fr: 'Joseph Pire est un développeur full-stack et designer basé en Belgique.',
+  en: 'Joseph Pire is a full-stack developer and designer based in Belgium, building elegant high-performance web solutions.',
+  nl: 'Joseph Pire is een full-stack developer en designer gevestigd in België, die elegante weboplossingen bouwt.',
+};
+const jobTitles: Record<Lang, string> = {
+  fr: 'Développeur Full-Stack & Designer',
+  en: 'Full-Stack Developer & Designer',
+  nl: 'Full-Stack Developer & Designer',
+};
+---
+
+<Layout
+  title={titles[lang]}
+  description={descs[lang]}
+  currentPage="home"
+  lang={lang}
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Joseph Pire",
+    "url": "https://josephpire.dev",
+    "email": "hello@josephpire.dev",
+    "jobTitle": jobTitles[lang],
+    "address": { "@type": "PostalAddress", "addressCountry": "BE" },
+    "sameAs": [
+      "https://github.com/iq0boy",
+      // Ajouter ici LinkedIn, Twitter/X, Dribbble...
+    ],
+  }}
+>
+  <HomeContent lang={lang} client:load />
+</Layout>

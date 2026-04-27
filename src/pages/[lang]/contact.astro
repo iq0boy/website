@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ContactContent from '../../components/pages/ContactContent';
+import type { Lang } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' }, props: { lang: 'en' as Lang } },
+    { params: { lang: 'nl' }, props: { lang: 'nl' as Lang } },
+  ];
+}
+
+const { lang } = Astro.props;
+
+const titles: Record<Lang, string> = {
+  fr: 'Contact — Joseph Pire',
+  en: 'Contact — Joseph Pire',
+  nl: 'Contact — Joseph Pire',
+};
+const descs: Record<Lang, string> = {
+  fr: '',
+  en: 'Get in touch with Joseph Pire. Available for freelance work and consulting engagements starting Q2 2026. Based in Belgium, available worldwide.',
+  nl: 'Neem contact op met Joseph Pire. Beschikbaar voor freelance en consulting opdrachten vanaf Q2 2026. Gevestigd in België, beschikbaar wereldwijd.',
+};
+---
+
+<Layout title={titles[lang]} description={descs[lang]} currentPage="contact" lang={lang}>
+  <ContactContent lang={lang} client:load />
+</Layout>

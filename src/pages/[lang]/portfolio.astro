@@ -1,0 +1,43 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PortfolioContent from '../../components/pages/PortfolioContent';
+import { getCollection } from 'astro:content';
+import type { Lang } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' }, props: { lang: 'en' as Lang } },
+    { params: { lang: 'nl' }, props: { lang: 'nl' as Lang } },
+  ];
+}
+
+const { lang } = Astro.props;
+
+const allProjects = await getCollection('projects', ({ id }) => id.startsWith(`${lang}/`));
+const projects = allProjects
+  .sort((a, b) => b.data.year.localeCompare(a.data.year))
+  .map(p => ({
+    slug: p.id.split('/').slice(1).join('/').replace(/\.md$/, ''),
+    title: p.data.title,
+    excerpt: p.data.excerpt,
+    category: p.data.category,
+    tags: p.data.tags,
+    year: p.data.year,
+    color: p.data.color,
+  }));
+
+const titles: Record<Lang, string> = {
+  fr: 'Projets — Joseph Pire',
+  en: 'Portfolio — Joseph Pire',
+  nl: 'Projecten — Joseph Pire',
+};
+const descs: Record<Lang, string> = {
+  fr: '',
+  en: 'Selected work by Joseph Pire: e-commerce platforms, SaaS dashboards, mobile apps, AI tools, and more.',
+  nl: 'Geselecteerd werk van Joseph Pire: e-commerceplatformen, SaaS dashboards, mobiele apps, AI-tools en meer.',
+};
+---
+
+<Layout title={titles[lang]} description={descs[lang]} currentPage="portfolio" lang={lang}>
+  <PortfolioContent lang={lang} projects={projects} client:visible />
+</Layout>
