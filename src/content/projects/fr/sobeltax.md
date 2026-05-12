@@ -1,11 +1,12 @@
 ---
-title: "Sobeltax — Réservation de Véhicules"
+title: 'Sobeltax — Réservation de Véhicules'
 excerpt: "Application web SSR pour la location de véhicules en Belgique : tunnel de réservation multi-étapes, recherche d'agence géolocalisée et espace client complet."
-category: "Web App"
-tags: ["Astro", "Svelte", "Fastify", "TypeScript", "OpenLayers", "Redis", "Docker"]
-year: "2025"
-color: "oklch(0.28 0.10 155)"
-liveUrl: "https://sobeltax.nsmobile.be"
+category: 'Web App'
+tags:
+  ['Astro', 'Svelte', 'Fastify', 'TypeScript', 'OpenLayers', 'Redis', 'Docker']
+year: '2025'
+color: 'oklch(0.28 0.10 155)'
+liveUrl: 'https://sobeltaxrental.be'
 ---
 
 Sobeltax est une plateforme de location de véhicules ciblant le marché belge, disponible en français, néerlandais et anglais. L'enjeu était de livrer un tunnel de réservation fluide, une gestion multi-agences avec localisation cartographique et un espace client complet, dans une application performante sans dépendre d'un framework monolithique.
@@ -50,3 +51,4 @@ Le routing i18n suit le pattern Astro : `/` pour le français (locale par défau
 ## Déploiement
 
 L'application tourne sur **Docker Swarm** avec un fichier Compose dédié à la production. Le serveur Fastify écoute sur le port 3000 derrière un reverse proxy. Le build multi-stage réduit la taille de l'image finale en séparant les dépendances de développement des artefacts de production.
+
