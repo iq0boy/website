@@ -1,6 +1,27 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import HomeContent from '../components/pages/HomeContent';
+import { getCollection } from 'astro:content';
+import { buildReviewLd } from '../lib/testimonials';
+import GitHubActivity from '../components/GitHubActivity.astro';
+import ClientLogos from '../components/ClientLogos';
+
+const siteUrl = Astro.site ? Astro.site.origin : 'https://josephpire.dev';
+const reviewLd = buildReviewLd(siteUrl);
+
+const allProjects = await getCollection('projects', ({ id }) => id.startsWith('fr/'));
+const featuredProjects = allProjects
+  .sort((a, b) => b.data.year.localeCompare(a.data.year))
+  .slice(0, 3)
+  .map(p => ({
+    slug: p.id.split('/').slice(1).join('/').replace(/\.md$/, ''),
+    title: p.data.title,
+    excerpt: p.data.excerpt,
+    category: p.data.category,
+    tags: p.data.tags,
+    year: p.data.year,
+    color: p.data.color,
+  }));
 ---
 
 <Layout
@@ -8,19 +29,51 @@ import HomeContent from '../components/pages/HomeContent';
   description="Joseph Pire est un développeur full-stack et designer basé en Belgique, créant des solutions web élégantes et performantes."
   currentPage="home"
   lang="fr"
-  structuredData={{
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Joseph Pire",
-    "url": "https://josephpire.dev",
-    "email": "hello@josephpire.dev",
-    "jobTitle": "Développeur Full-Stack & Designer",
-    "address": { "@type": "PostalAddress", "addressCountry": "BE", "addressLocality": "Belgique" },
-    "sameAs": [
-      "https://github.com/iq0boy",
-      // Ajouter ici LinkedIn, Twitter/X, Dribbble...
-    ],
-  }}
+  structuredData={[
+    ...(reviewLd ?? []),
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "@id": "https://josephpire.dev/#person",
+      "name": "Joseph Pire",
+      "url": "https://josephpire.dev",
+      "email": "josephpire.dev@gmail.com",
+      "jobTitle": "Développeur Full-Stack & Designer",
+      "image": "https://josephpire.dev/og.png",
+      "address": { "@type": "PostalAddress", "addressCountry": "BE", "addressLocality": "Belgique" },
+      "knowsAbout": ["Web Development", "UI/UX Design", "TypeScript", "React", "Astro", "Node.js", "AI Integration"],
+      "knowsLanguage": ["fr", "en", "nl"],
+      "sameAs": [
+        "https://github.com/iq0boy",
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "@id": "https://josephpire.dev/#business",
+      "name": "Joseph Pire — Freelance Web Development",
+      "url": "https://josephpire.dev",
+      "image": "https://josephpire.dev/og.png",
+      "founder": { "@id": "https://josephpire.dev/#person" },
+      "areaServed": [
+        { "@type": "Country", "name": "Belgium" },
+        { "@type": "Country", "name": "France" },
+        { "@type": "Country", "name": "Netherlands" },
+        { "@type": "Place", "name": "Worldwide (remote)" },
+      ],
+      "address": { "@type": "PostalAddress", "addressCountry": "BE" },
+      "priceRange": "€€",
+      "serviceType": ["Web Development", "UI/UX Design", "AI Integration", "Technical Consulting"],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "sales",
+        "email": "josephpire.dev@gmail.com",
+        "availableLanguage": ["French", "English", "Dutch"],
+      },
+    },
+  ]}
 >
-  <HomeContent lang="fr" client:load />
+  <HomeContent lang="fr" featuredProjects={featuredProjects} client:load />
+  <ClientLogos lang="fr" client:visible />
+  <GitHubActivity lang="fr" />
 </Layout>

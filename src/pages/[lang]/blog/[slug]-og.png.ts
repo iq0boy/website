@@ -10,7 +10,7 @@ export async function getStaticPaths() {
       const posts = await getCollection('blog', ({ id }) => id.startsWith(lang + '/'));
       return posts.map(post => ({
         params: { lang, slug: post.id.split('/').slice(1).join('/') },
-        props: { title: post.data.title, category: post.data.category },
+        props: { lang, title: post.data.title, category: post.data.category },
       }));
     })
   );
@@ -18,7 +18,7 @@ export async function getStaticPaths() {
 }
 
 export const GET: APIRoute = async ({ props }) => {
-  const png = await buildPostOg(props.title, props.category);
+  const png = await buildPostOg(props.title, props.category, props.lang);
   return new Response(png, {
     headers: { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=31536000, immutable' },
   });

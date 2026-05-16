@@ -11,6 +11,8 @@ liveUrl: 'https://sobeltaxrental.be'
 
 Sobeltax is a vehicle rental platform targeting the Belgian market, available in French, Dutch and English. The challenge was delivering a smooth booking flow, multi-agency management with map-based search, and a full customer area — without relying on a monolithic framework.
 
+![Sobeltax homepage with the booking widget and featured fleet](../../../assets/projects/sobeltax/home.png)
+
 ## Architecture
 
 The application is built with **Astro 5 in SSR mode** using the Node.js adapter, served by **Fastify 5** as the HTTP runtime. Interactive components are **Svelte 5** islands: each page ships only the JavaScript for the components it actually uses, with no global bundle. This directly improves Time to Interactive, especially on mobile.
@@ -40,9 +42,13 @@ The core of the application is a guided reservation process:
 
 The booking state is persisted client-side with **Nanostores**, so users can navigate between steps without losing entered data, even after a page reload.
 
+![Sobeltax fleet catalogue showing the Compact, Large and Full Size with tailgate categories](../../../assets/projects/sobeltax/fleet.png)
+
 ## Geolocated Agency Search
 
 The agencies page integrates **OpenLayers 10** to display the network on an interactive map. Search works by name or address; the agency list synchronises with the map state in real time. OpenLayers was chosen as an open source alternative to Google Maps — no quota, no API cost.
+
+![OpenLayers interactive map showing the Sobeltax agency network across Belgium](../../../assets/projects/sobeltax/agencies.png)
 
 ## Belgian Multi-Language
 

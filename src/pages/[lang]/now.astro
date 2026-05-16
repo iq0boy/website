@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NowContent from '../../components/pages/NowContent';
+import type { Lang } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' }, props: { lang: 'en' as Lang } },
+    { params: { lang: 'nl' }, props: { lang: 'nl' as Lang } },
+  ];
+}
+
+const { lang } = Astro.props;
+const titles: Record<Lang, string> = {
+  fr: 'Now — Joseph Pire',
+  en: 'Now — Joseph Pire',
+  nl: 'Now — Joseph Pire',
+};
+const descs: Record<Lang, string> = {
+  fr: '',
+  en: 'What Joseph Pire is up to right now: current projects, what he is reading, what he is learning, and what he is saying no to.',
+  nl: 'Waar Joseph Pire nu mee bezig is: lopende projecten, wat hij leest, wat hij leert, en waar hij nee tegen zegt.',
+};
+---
+<Layout title={titles[lang]} description={descs[lang]} currentPage="now" lang={lang}>
+  <NowContent lang={lang} client:visible />
+</Layout>

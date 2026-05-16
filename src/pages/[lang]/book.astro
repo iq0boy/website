@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BookContent from '../../components/pages/BookContent';
+import type { Lang } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' }, props: { lang: 'en' as Lang } },
+    { params: { lang: 'nl' }, props: { lang: 'nl' as Lang } },
+  ];
+}
+
+const { lang } = Astro.props;
+const titles: Record<Lang, string> = {
+  fr: 'Réserver un appel — Joseph Pire',
+  en: 'Book a call — Joseph Pire',
+  nl: 'Plan een gesprek — Joseph Pire',
+};
+const descs: Record<Lang, string> = {
+  fr: '',
+  en: 'Book a 30-minute discovery call with Joseph Pire — freelance full-stack developer and designer based in Belgium.',
+  nl: 'Plan een kennismakingsgesprek van 30 minuten met Joseph Pire — freelance full-stack developer en designer in België.',
+};
+---
+<Layout title={titles[lang]} description={descs[lang]} currentPage="book" lang={lang}>
+  <BookContent lang={lang} client:load />
+</Layout>

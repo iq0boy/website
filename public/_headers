@@ -1,0 +1,38 @@
+# Cache rules — Cloudflare Pages, Netlify, and other static hosts honour this file.
+# Don't ship to Vercel/Hetzner-Caddy — they use their own config syntax.
+
+# Immutable hashed assets — 1 year, never revalidate.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fonts — also hashed by build, but served from /fonts in some cases.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# OG images — 1 year. Filenames change when content changes.
+/blog/*-og.png
+  Cache-Control: public, max-age=31536000, immutable
+/og.png
+  Cache-Control: public, max-age=31536000, immutable
+
+# Manifest, robots, sitemap — short cache, must revalidate.
+/manifest.webmanifest
+  Cache-Control: public, max-age=3600, must-revalidate
+/robots.txt
+  Cache-Control: public, max-age=3600, must-revalidate
+/sitemap*.xml
+  Cache-Control: public, max-age=3600, must-revalidate
+/rss.xml
+  Cache-Control: public, max-age=600, must-revalidate
+
+# Pagefind index — content-hashed, can be cached longer.
+/pagefind/*
+  Cache-Control: public, max-age=86400, must-revalidate
+
+# Everything else (HTML) — short cache so content updates ship fast.
+/*
+  Cache-Control: public, max-age=300, must-revalidate
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

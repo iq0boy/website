@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import StartContent from '../../components/pages/StartContent';
+import type { Lang } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' }, props: { lang: 'en' as Lang } },
+    { params: { lang: 'nl' }, props: { lang: 'nl' as Lang } },
+  ];
+}
+
+const { lang } = Astro.props;
+const titles: Record<Lang, string> = {
+  fr: 'Démarrer un projet — Joseph Pire',
+  en: 'Start a project — Joseph Pire',
+  nl: 'Project starten — Joseph Pire',
+};
+const descs: Record<Lang, string> = {
+  fr: '',
+  en: 'Five quick questions to scope your project. Send the brief, get a proposal within 24 hours.',
+  nl: 'Vijf snelle vragen om je project te scopen. Stuur de brief, ontvang een voorstel binnen 24 uur.',
+};
+---
+<Layout title={titles[lang]} description={descs[lang]} currentPage="start" lang={lang}>
+  <StartContent lang={lang} client:load />
+</Layout>

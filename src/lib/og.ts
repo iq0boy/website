@@ -57,8 +57,9 @@ export async function buildDefaultOg(): Promise<Buffer> {
   );
 }
 
-export async function buildPostOg(title: string, category: string): Promise<Buffer> {
+export async function buildPostOg(title: string, category: string, lang: 'fr' | 'en' | 'nl' = 'fr'): Promise<Buffer> {
   const fontSize = titleFontSize(title);
+  const langLabel = lang.toUpperCase();
   return toBuffer(
     h('div', {
       style: {
@@ -73,6 +74,21 @@ export async function buildPostOg(title: string, category: string): Promise<Buff
       },
     },
       h('div', { style: { position: 'absolute', top: 0, left: 0, right: 0, height: 5, background: '#c89a5e' } }),
+      // Lang chip in the top-right corner
+      h('div', {
+        style: {
+          position: 'absolute',
+          top: 36,
+          right: 72,
+          padding: '6px 14px',
+          border: '1px solid #c89a5e',
+          color: '#c89a5e',
+          fontSize: 14,
+          fontWeight: 700,
+          letterSpacing: '0.2em',
+          borderRadius: 999,
+        },
+      }, langLabel),
       h('div', {
         style: { fontSize: 15, fontWeight: 700, color: '#c89a5e', letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 36 },
       }, category),

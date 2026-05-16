@@ -32,6 +32,16 @@ export default function BlogContent({ lang, posts }: { lang: Lang; posts: Post[]
 
       <section className="section-padding">
         <div className="container">
+          {posts.length === 0 && (
+            <div className="reveal" style={{ padding: '80px 0', textAlign: 'center', maxWidth: 560, margin: '0 auto' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 24 }}>
+                {t('blog_empty_title')}
+              </div>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: 1.7 }}>
+                {t('blog_empty_desc')}
+              </p>
+            </div>
+          )}
           {posts.map((post, i) => (
             <div key={post.slug}>
               <a href={lp(`/blog/${post.slug}`)} className="blog-article" style={{ textDecoration: 'none', color: 'inherit', display: 'grid', gridTemplateColumns: '1fr auto', gap: 40, alignItems: 'start', padding: '48px 0', cursor: 'pointer' }}>

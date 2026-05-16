@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CollaborateContent from '../../components/pages/CollaborateContent';
+import type { Lang } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' }, props: { lang: 'en' as Lang } },
+    { params: { lang: 'nl' }, props: { lang: 'nl' as Lang } },
+  ];
+}
+
+const { lang } = Astro.props;
+const titles: Record<Lang, string> = {
+  fr: 'Collaborer — Joseph Pire',
+  en: 'Collaborate — Joseph Pire',
+  nl: 'Samenwerken — Joseph Pire',
+};
+const descs: Record<Lang, string> = {
+  fr: '',
+  en: 'For agencies and freelancers needing senior full-stack capacity. White-label, sub-contracting, scope, rates.',
+  nl: 'Voor bureaus en freelancers die senior full-stack capaciteit nodig hebben. White-label, onderaanneming, scope, tarieven.',
+};
+---
+<Layout title={titles[lang]} description={descs[lang]} currentPage="collaborate" lang={lang}>
+  <CollaborateContent lang={lang} client:visible />
+</Layout>

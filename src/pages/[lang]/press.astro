@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PressContent from '../../components/pages/PressContent';
+import type { Lang } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' }, props: { lang: 'en' as Lang } },
+    { params: { lang: 'nl' }, props: { lang: 'nl' as Lang } },
+  ];
+}
+
+const { lang } = Astro.props;
+const titles: Record<Lang, string> = {
+  fr: 'Espace presse — Joseph Pire',
+  en: 'Press kit — Joseph Pire',
+  nl: 'Persmap — Joseph Pire',
+};
+const descs: Record<Lang, string> = {
+  fr: '',
+  en: 'Bios, headshots and brand assets for journalists, podcasters and event organisers.',
+  nl: 'Bios, foto\'s en merkactiva voor journalisten, podcasters en evenementorganisatoren.',
+};
+---
+<Layout title={titles[lang]} description={descs[lang]} currentPage="press" lang={lang}>
+  <PressContent lang={lang} client:visible />
+</Layout>

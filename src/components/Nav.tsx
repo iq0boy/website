@@ -56,10 +56,44 @@ export default function Nav({ currentPage, lang }: NavProps) {
               >{label}</a>
             ))}
             <div style={{ width: 1, height: 20, background: 'var(--border)' }} />
+            <SearchButton t={t} />
             <LanguageSelector lang={lang} />
             <ThemeToggle theme={theme} onToggle={toggleTheme} />
+            <a
+              href={lp('/book')}
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.7rem',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                color: 'var(--bg-primary)',
+                background: 'var(--accent)',
+                padding: '8px 14px',
+                borderRadius: 3,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                boxShadow: '0 0 0 0 var(--accent-glow)',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'translateY(-1px)';
+                e.currentTarget.style.boxShadow = '0 6px 18px -4px var(--accent-glow)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 0 0 0 var(--accent-glow)';
+              }}
+            >
+              {t('nav_book')}
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
           </div>
           <div className="mobile-nav-controls" style={{ display: 'none', alignItems: 'center', gap: 12 }}>
+            <SearchButton t={t} compact />
             <LanguageSelector lang={lang} />
             <ThemeToggle theme={theme} onToggle={toggleTheme} />
             <button onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" style={{
@@ -87,6 +121,15 @@ export default function Nav({ currentPage, lang }: NavProps) {
             color: currentPage === key ? 'var(--accent)' : 'var(--text-primary)',
           }} onClick={() => setMenuOpen(false)}>{label}</a>
         ))}
+        <a
+          href={lp('/book')}
+          className="btn-primary"
+          style={{ marginTop: 16, fontSize: '0.9rem' }}
+          onClick={() => setMenuOpen(false)}
+        >
+          {t('nav_book')}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
 
       <style>{`
@@ -125,6 +168,40 @@ function ThemeToggle({ theme, onToggle }: { theme: string; onToggle: () => void 
           </svg>
         )}
       </span>
+    </button>
+  );
+}
+
+function SearchButton({ t, compact = false }: { t: (key: string) => string; compact?: boolean }) {
+  const open = () => {
+    (window as unknown as { __jpOpenSearch?: () => void }).__jpOpenSearch?.();
+  };
+  return (
+    <button
+      type="button"
+      onClick={open}
+      aria-label={t('search_open')}
+      style={{
+        background: 'transparent',
+        border: '1px solid var(--border)',
+        color: 'var(--text-secondary)',
+        padding: compact ? '5px 8px' : '5px 10px',
+        fontFamily: 'var(--font-mono)',
+        fontSize: '0.7rem',
+        letterSpacing: '0.05em',
+        cursor: 'pointer',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 8,
+        height: 24,
+        transition: 'all 0.3s ease',
+      }}
+    >
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.35-4.35" />
+      </svg>
+      {!compact && <span style={{ opacity: 0.7 }}>⌘K</span>}
     </button>
   );
 }

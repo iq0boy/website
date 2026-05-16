@@ -2,6 +2,9 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
 import { TRANSLATIONS, localePath } from '../../lib/i18n';
+import ReadingProgress from '../../components/ReadingProgress';
+import TableOfContents from '../../components/TableOfContents';
+import RelatedItems from '../../components/RelatedItems.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ id }) => id.startsWith('fr/'));
@@ -12,22 +15,43 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 
 const lang = 'fr';
 const t = (key: string) => (TRANSLATIONS[lang] as Record<string, string>)[key] ?? key;
 const lp = (path: string) => localePath(lang, path);
 const date = post.data.pubDate.toLocaleDateString('fr-BE', { day: 'numeric', month: 'long', year: 'numeric' });
 
-const slug = post.id.split('/').slice(1).join('/');
+const slug = post.id.split('/').slice(1).join('/').replace(/\.md$/, '');
+const siteUrl = Astro.site ? Astro.site.origin : 'https://josephpire.dev';
+
+const allPosts = await getCollection('blog', ({ id }) => id.startsWith('fr/'));
+const related = allPosts
+  .filter(p => p.id !== post.id)
+  .sort((a, b) => {
+    const aMatch = a.data.category === post.data.category ? 1 : 0;
+    const bMatch = b.data.category === post.data.category ? 1 : 0;
+    if (aMatch !== bMatch) return bMatch - aMatch;
+    return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+  })
+  .slice(0, 3)
+  .map(p => {
+    const s = p.id.split('/').slice(1).join('/').replace(/\.md$/, '');
+    return {
+      href: lp(`/blog/${s}`),
+      title: p.data.title,
+      excerpt: p.data.excerpt,
+      meta: `${p.data.category} · ${p.data.pubDate.toLocaleDateString('fr-BE', { month: 'short', year: 'numeric' })}`,
+    };
+  });
 
 const breadcrumbLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Joseph Pire", "item": "https://josephpire.dev" },
-    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://josephpire.dev/blog/" },
-    { "@type": "ListItem", "position": 3, "name": post.data.title, "item": `https://josephpire.dev${Astro.url.pathname}` },
+    { "@type": "ListItem", "position": 1, "name": "Joseph Pire", "item": siteUrl },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": `${siteUrl}/blog/` },
+    { "@type": "ListItem", "position": 3, "name": post.data.title, "item": `${siteUrl}${Astro.url.pathname}` },
   ],
 };
 
@@ -37,10 +61,19 @@ const articleLd = {
   "headline": post.data.title,
   "description": post.data.excerpt,
   "datePublished": post.data.pubDate.toISOString(),
+  ...(post.data.updatedDate ? { "dateModified": post.data.updatedDate.toISOString() } : {}),
   "inLanguage": "fr",
-  "author": { "@type": "Person", "name": "Joseph Pire", "url": "https://josephpire.dev" },
-  "publisher": { "@type": "Person", "name": "Joseph Pire", "url": "https://josephpire.dev" },
-  "url": `https://josephpire.dev${Astro.url.pathname}`,
+  "articleSection": post.data.category,
+  ...(post.data.tags ? { "keywords": post.data.tags.join(', ') } : {}),
+  "author": { "@type": "Person", "name": "Joseph Pire", "url": siteUrl },
+  "publisher": { "@type": "Person", "name": "Joseph Pire", "url": siteUrl },
+  "mainEntityOfPage": `${siteUrl}${Astro.url.pathname}`,
+  "image": `${siteUrl}/blog/${slug}-og.png`,
+  "url": `${siteUrl}${Astro.url.pathname}`,
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": ["h1", ".post-article > p"],
+  },
 };
 ---
 
@@ -54,39 +87,63 @@ const articleLd = {
   ogImage={`/blog/${slug}-og.png`}
   structuredData={[articleLd, breadcrumbLd]}
 >
+  <ReadingProgress client:load />
   <div class="page-wrapper">
     <section style="padding-top: clamp(140px, 20vh, 200px); padding-bottom: 60px;">
-      <div style="max-width: 800px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 80px);">
+      <div class="post-layout">
+        <article class="post-article" data-pagefind-body data-pagefind-filter="type:post" data-pagefind-meta={`title:${post.data.title}`}>
+          <a href={lp('/blog')} style="color: var(--accent); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 40px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            {t('back_to_blog')}
+          </a>
 
-        <a href={lp('/blog')} style="color: var(--accent); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 40px; display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-          {t('back_to_blog')}
-        </a>
+          <div style="margin-top: 40px; margin-bottom: 24px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+            <span style="font-family: var(--font-mono); font-size: 0.7rem; padding: 4px 10px; background: var(--bg-tertiary); color: var(--accent);">{post.data.category}</span>
+            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);">{date}</span>
+            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);">{post.data.readTime} {t('read')}</span>
+          </div>
 
-        <div style="margin-top: 40px; margin-bottom: 24px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
-          <span style="font-family: var(--font-mono); font-size: 0.7rem; padding: 4px 10px; background: var(--bg-tertiary); color: var(--accent);">{post.data.category}</span>
-          <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);">{date}</span>
-          <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);">{post.data.readTime} {t('read')}</span>
-        </div>
+          <h1 style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; margin-bottom: 40px;" transition:name={`post-${slug}`}>{post.data.title}</h1>
 
-        <h1 style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; margin-bottom: 40px;">{post.data.title}</h1>
+          <div class="divider" style="margin-bottom: 40px;"></div>
 
-        <div class="divider" style="margin-bottom: 40px;"></div>
+          <p style="margin-bottom: 32px; font-size: 1.15rem; color: var(--text-primary); line-height: 1.7;">{post.data.excerpt}</p>
 
-        <p style="margin-bottom: 32px; font-size: 1.15rem; color: var(--text-primary); line-height: 1.7;">{post.data.excerpt}</p>
+          <div class="prose">
+            <Content />
+          </div>
 
-        <div class="prose">
-          <Content />
-        </div>
+          <div class="divider" style="margin: 60px 0;"></div>
 
-        <div class="divider" style="margin: 60px 0;"></div>
+          <RelatedItems lang="fr" label={t('related_posts')} items={related} />
 
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
-          <a href={lp('/blog')} class="btn-outline" style="font-size: 0.85rem; padding: 12px 24px;">{t('all_articles')}</a>
-          <a href={lp('/contact')} class="btn-outline" style="font-size: 0.85rem; padding: 12px 24px;">{t('discuss_this')}</a>
-        </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 60px;">
+            <a href={lp('/blog')} class="btn-outline" style="font-size: 0.85rem; padding: 12px 24px;">{t('all_articles')}</a>
+            <a href={lp('/contact')} class="btn-outline" style="font-size: 0.85rem; padding: 12px 24px;">{t('discuss_this')}</a>
+          </div>
+        </article>
 
+        <aside class="post-aside">
+          <TableOfContents headings={headings} label={t('on_this_page')} client:load />
+        </aside>
       </div>
     </section>
   </div>
 </Layout>
+
+<style>
+  .post-layout {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 clamp(24px, 5vw, 80px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 64px;
+  }
+  .post-article { max-width: 760px; min-width: 0; }
+  .post-aside { display: none; }
+  @media (min-width: 1080px) {
+    .post-layout { grid-template-columns: minmax(0, 760px) 220px; }
+    .post-aside { display: block; }
+  }
+</style>

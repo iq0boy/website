@@ -1,5 +1,22 @@
+import { useState } from 'react';
 import { useLang, useRevealEffect, localePath } from '../../lib/i18n';
 import type { Lang } from '../../lib/i18n';
+
+const FAQS = [
+  { q: 'faq_q1', a: 'faq_a1' },
+  { q: 'faq_q2', a: 'faq_a2' },
+  { q: 'faq_q3', a: 'faq_a3' },
+  { q: 'faq_q4', a: 'faq_a4' },
+  { q: 'faq_q5', a: 'faq_a5' },
+  { q: 'faq_q6', a: 'faq_a6' },
+];
+
+const PRICING = [
+  { title: 'pricing_card_landing_t', price: 'pricing_card_landing_p', desc: 'pricing_card_landing_d' },
+  { title: 'pricing_card_app_t',     price: 'pricing_card_app_p',     desc: 'pricing_card_app_d' },
+  { title: 'pricing_card_audit_t',   price: 'pricing_card_audit_p',   desc: 'pricing_card_audit_d' },
+  { title: 'pricing_card_retainer_t', price: 'pricing_card_retainer_p', desc: 'pricing_card_retainer_d' },
+];
 
 const SERVICES = [
   { icon: '⟨/⟩', titleKey: 'svc_full_web_t', descKey: 'svc_full_web_d', features: ['Single Page Applications', 'Progressive Web Apps', 'API Development', 'E-commerce Solutions'] },
@@ -81,6 +98,101 @@ export default function ServicesContent({ lang }: { lang: Lang }) {
         </div>
       </section>
 
+      {/* Pricing */}
+      <section className="section-padding" style={{ background: 'var(--bg-secondary)' }}>
+        <div className="container">
+          <p className="label reveal" style={{ marginBottom: 24 }}>{t('pricing_label')}</p>
+          <h2 className="heading-lg reveal" style={{ marginBottom: 24 }}>
+            {t('pricing_title')}<span style={{ color: 'var(--accent)' }}>.</span>
+          </h2>
+          <p className="body-lg reveal" style={{ maxWidth: 680, marginBottom: 56 }}>
+            {t('pricing_desc')}
+          </p>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: 20,
+            }}
+          >
+            {PRICING.map((p, i) => (
+              <div
+                key={i}
+                className="reveal"
+                style={{
+                  background: 'var(--bg-primary)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 6,
+                  padding: 28,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 16,
+                  transitionDelay: `${i * 0.06}s`,
+                }}
+              >
+                <p
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.7rem',
+                    letterSpacing: '0.18em',
+                    textTransform: 'uppercase',
+                    color: 'var(--accent)',
+                  }}
+                >
+                  {t(p.title)}
+                </p>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(1.6rem, 3vw, 2rem)',
+                    lineHeight: 1.1,
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  {t(p.price)}
+                </p>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.6, flex: 1 }}>
+                  {t(p.desc)}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div
+            style={{
+              marginTop: 40,
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: 24,
+              justifyContent: 'space-between',
+            }}
+          >
+            <a href={lp('/book')} className="btn-primary" style={{ fontSize: '0.9rem' }}>
+              {t('pricing_cta_book')}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+              {t('pricing_note')}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="section-padding">
+        <div className="container">
+          <p className="label reveal" style={{ marginBottom: 24 }}>{t('faq_label')}</p>
+          <h2 className="heading-lg reveal" style={{ marginBottom: 56 }}>
+            {t('faq_title')}<span style={{ color: 'var(--accent)' }}>.</span>
+          </h2>
+          <div style={{ maxWidth: 820 }}>
+            {FAQS.map((f, i) => (
+              <FaqItem key={i} question={t(f.q)} answer={t(f.a)} index={i} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section style={{ padding: 'clamp(80px, 15vh, 160px) 0', textAlign: 'center' }}>
         <div className="container">
@@ -90,6 +202,75 @@ export default function ServicesContent({ lang }: { lang: Lang }) {
           <a href={lp('/contact')} className="btn-primary">{t('lets_talk')}</a>
         </div>
       </section>
+    </div>
+  );
+}
+
+function FaqItem({ question, answer, index }: { question: string; answer: string; index: number }) {
+  const [open, setOpen] = useState(index === 0);
+  return (
+    <div
+      className="reveal"
+      style={{
+        borderTop: '1px solid var(--border)',
+        ...(index === FAQS.length - 1 ? { borderBottom: '1px solid var(--border)' } : {}),
+      }}
+    >
+      <button
+        type="button"
+        onClick={() => setOpen(o => !o)}
+        aria-expanded={open}
+        style={{
+          width: '100%',
+          background: 'transparent',
+          border: 'none',
+          padding: '24px 0',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: 24,
+          cursor: 'pointer',
+          textAlign: 'left',
+          color: 'var(--text-primary)',
+          fontFamily: 'var(--font-display)',
+          fontSize: 'clamp(1.1rem, 2.2vw, 1.4rem)',
+          lineHeight: 1.3,
+        }}
+      >
+        <span>{question}</span>
+        <span
+          aria-hidden="true"
+          style={{
+            color: 'var(--accent)',
+            fontSize: '1.6rem',
+            transform: open ? 'rotate(45deg)' : 'rotate(0deg)',
+            transition: 'transform 0.4s var(--ease-out-expo)',
+            flexShrink: 0,
+            lineHeight: 1,
+          }}
+        >
+          +
+        </span>
+      </button>
+      <div
+        style={{
+          maxHeight: open ? 400 : 0,
+          opacity: open ? 1 : 0,
+          overflow: 'hidden',
+          transition: 'max-height 0.5s var(--ease-out-expo), opacity 0.3s ease',
+        }}
+      >
+        <p
+          style={{
+            color: 'var(--text-secondary)',
+            lineHeight: 1.7,
+            paddingBottom: 28,
+            maxWidth: 680,
+          }}
+        >
+          {answer}
+        </p>
+      </div>
     </div>
   );
 }

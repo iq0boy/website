@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import ServicesContent from '../../components/pages/ServicesContent';
+import { buildFaqLd } from '../../lib/faq';
 import type { Lang } from '../../lib/i18n';
 
 export function getStaticPaths() {
@@ -24,6 +25,6 @@ const descs: Record<Lang, string> = {
 };
 ---
 
-<Layout title={titles[lang]} description={descs[lang]} currentPage="services" lang={lang}>
+<Layout title={titles[lang]} description={descs[lang]} currentPage="services" lang={lang} structuredData={buildFaqLd(lang)}>
   <ServicesContent lang={lang} client:visible />
 </Layout>

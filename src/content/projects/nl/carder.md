@@ -1,55 +1,71 @@
 ---
-title: "Carder — NFC Visitekaartjesplatform"
-excerpt: "Multi-tenant NFC-visitekaartjesplatform: gepersonaliseerde pagina's per klant, 20+ linktypes, badgesysteem, installeerbare PWA en eigen analytics."
-category: "Web App"
-tags: ["Astro", "React", "Astro DB", "Drizzle ORM", "Tailwind", "DaisyUI", "Docker"]
-year: "2025"
-color: "oklch(0.24 0.09 265)"
-liveUrl: "https://nsmobile6k.be"
+title: 'Carder — NFC Visitekaart Platform'
+excerpt: 'Multi-tenant SaaS voor NFC-visitekaarten: per-klant aangepaste paginas, 20+ link-types, badge-systeem, installeerbare PWA en cookieloze analytics.'
+category: 'Web App'
+tags: ['Astro', 'React', 'Astro DB', 'Drizzle ORM', 'Tailwind', 'DaisyUI', 'Docker']
+year: '2025'
+color: 'oklch(0.24 0.09 265)'
+liveUrl: 'https://nsmobile6k.be'
 ---
 
-Carder is een multi-tenant SaaS-platform voor NFC-visitekaartjes, beschikbaar op `nsmobile6k.be` en `techcard.be`. Elke klant krijgt een volledig gepersonaliseerde `/users/[slug]`-pagina — logo, kleuren, links, badges — toegankelijk met één tik op een NFC-smartphone.
+Carder is een multi-tenant SaaS voor NFC-visitekaarten, uitgerold onder `nsmobile6k.be` en `techcard.be`. Elke klant krijgt een volledig aangepaste `/users/[slug]`-pagina — logo, kleuren, links, badges — bereikbaar met één tik van een NFC-smartphone.
+
+![Carder marketing-landing — "Révolutionnez votre business avec notre technologie NFC"](../../../assets/projects/carder/hero.png)
 
 ## Architectuur
 
-De applicatie is gebouwd met **Astro 5 SSR** en de standalone Node.js-adapter. De database is **Astro DB** (gehoste SQLite via libSQL), bevraagd met **Drizzle ORM**. Interactieve componenten zijn **React 19**; de UI gebruikt **Tailwind + DaisyUI** voor basistheming en inline CSS-variabelen voor per-kaartse kleuren.
+Gebouwd met **Astro 5 SSR** op de standalone Node.js-adapter. Persistentie via **Astro DB** (gehoste SQLite via libSQL), bevraagd met **Drizzle ORM**. Interactieve delen zijn **React 19**; de UI gebruikt **Tailwind + DaisyUI** voor basis-theming en inline CSS-variabelen voor de per-kaart kleuren. Mutaties lopen via **Astro Actions** in plaats van ad-hoc API-routes — type-safe van begin tot eind en gevalideerd door **Zod**.
 
 ```
 Node.js (entry.mjs)
     │
     └── Astro SSR runtime
-            ├── Publieke pagina's  (/users/[slug], /users/[slug]/badges/[id])
-            ├── Gebruikersruimte   (/cards, /profile)
-            ├── Adminpanel         (/admin/cards, /admin/access)
-            └── Astro Actions      (CRUD kaarten, links, badges, auth)
+            ├── Publieke paginas   /users/[slug], /users/[slug]/badges/[id]
+            ├── Gebruikersruimte   /cards, /cards/[slug]/edit, /profile
+            ├── Admin-panel        /admin/cards, /admin/access
+            └── Astro Actions      CRUD voor kaarten, links, badges, auth
 ```
 
-Sessies worden beheerd via Astro's experimentele `fs-lite`-driver, bewaard in een dedicated Docker-volume.
+Sessies gebruiken Astro's experimentele `fs-lite` driver, persistent gemaakt in een aparte Docker-volume.
 
-## Personalisatie per kaart
+## Productgamma
 
-Elke kaart heeft een reeks instelbare eigenschappen:
+De publieke landing verkoopt vier fysieke NFC-dragers — plaques, tags, stickers en kaarten — allemaal gekoppeld aan hetzelfde kaart-record in het platform.
 
-- **Kleuren** — achtergrond kaart, tekst, achtergrond logo, kleur links: alles als inline stijlen ingevuld voor nauwkeurige weergave per klant zonder globale CSS-overrides.
-- **DaisyUI-thema** — toegepast via `data-theme` voor lichte/donkere modus per klant.
-- **Randradius** — `rounded` of `square` aangestuurd via het veld `theme`.
+![Productgamma — plaques, tags, stickers en kaarten](../../../assets/projects/carder/products.png)
 
-## Linksysteem
+## Admin-panel
 
-Een kaart toont tot **8 links** in een 2-kolommenraster. Elk link heeft een van de 20+ types: telefoon, WhatsApp, Instagram, TikTok, Google Maps, Google Reviews, menu's, online bestellen, agenda, formulieren en meer. De `size`-eigenschap (`small` / `large`) bepaalt of de link 1 of 2 kolommen beslaat.
+Admins maken slugs aan, beheren assets en ruimen de catalogus op vanaf één dashboard. Elke kaart heeft een eigen `/cards/[slug]/edit`-formulier waar de klant (of het bureau in zijn naam) alles hieronder configureert.
+
+![Admin-dashboard met de volledige klantencatalogus](../../../assets/projects/carder/admin-cards.png)
+
+## Per-kaart aanpassing
+
+Elke kaart heeft een set configureerbare eigenschappen:
+
+- **Kleuren** — kaart-achtergrond, tekst, logo-achtergrond, link-kleur: allemaal als inline style geïnjecteerd voor een trouwe rendering zonder globale CSS te overschrijven.
+- **DaisyUI-thema** — toegepast via `data-theme` voor licht/donker per klant.
+- **Hoekradius** — `rounded` of `square` gestuurd door het `theme`-veld.
+
+## Link-systeem
+
+Een kaart toont maximaal **8 links** in een 2-koloms raster. Elke link is van één van 20+ types — telefoon, WhatsApp, Instagram, TikTok, Google Maps, Google-recensies, menu's, online bestellen, agenda, formulieren en meer. De `size`-eigenschap (`small` / `large`) bepaalt of de link 1 of 2 kolommen inneemt.
 
 ## Badges
 
-Badges zijn visuele knoppen gekoppeld aan een afbeelding of logo, met een optionele URL of een eigen subpagina op `/users/[slug]/badges/[id]`. Ze stellen klanten in staat om certificeringen, promoties of media-inhoud direct op hun kaart te tonen.
+Badges zijn visuele knoppen gekoppeld aan een afbeelding of logo, met een optionele URL of een dedicated subpagina op `/users/[slug]/badges/[id]`. Klanten gebruiken ze om certificaten, lopende promo's, een menu of rijke media direct op de kaart te tonen.
+
+![Live klantkaart — restaurant "Black and White": 8 link-types en 3 badges](../../../assets/projects/carder/card-view.png)
 
 ## Installeerbare PWA
 
-Elke kaartpagina genereert dynamisch een inline **Web App Manifest** — `id`, `start_url`, `scope`, themakleuren en iconen worden berekend op basis van de kaartgegevens in de database. Eindgebruikers kunnen de kaart rechtstreeks op hun startscherm installeren zonder tussenkomst van een app store, in `fullscreen`-weergave.
+Elke kaart-pagina genereert dynamisch een inline **Web App Manifest** — `id`, `start_url`, `scope`, themakleuren en iconen worden berekend uit het kaart-record. De eindgebruiker zet de kaart op het startscherm zonder via een store te gaan; de pagina start in `fullscreen`-modus zonder browser-chrome, wat de ervaring bij herhaalbezoeken niet te onderscheiden maakt van een native app.
 
-## Eigen analytics
+## Cookieloze analytics
 
-Paginabezoeken en klikken worden bijgehouden via een interne service (`holmes.nsmobile.be`). Elk event — laden van de pagina of klikken op een link/badge — stuurt een `POST /api/hits/[slug]/[action]`. Geen cookies, geen externe afhankelijkheden.
+Bezoeken en kliks worden getrackt via een interne dienst (`holmes.nsmobile.be`). Elke event — page-load of klik op een link/badge — stuurt een `POST /api/hits/[slug]/[action]`. Geen cookies, geen third-party JavaScript, geen toestemmingsbanner nodig.
 
 ## Deployment
 
-De applicatie draait op **Docker Compose** achter een **Caddy** reverse proxy (geconfigureerd via containerlabels). Twee volumes zijn gekoppeld: `data/` voor sessies en de lokale SQLite-database, en `dist/client/assets/cards/` voor kaartassets (logo's, badges) die bewaard blijven tussen image-rebuilds.
+De applicatie draait op **Docker Compose** achter een **Caddy** reverse proxy, geconfigureerd via container-labels. Twee volumes worden gemount: `data/` voor sessies en de lokale SQLite-database, en `dist/client/assets/cards/` voor de kaart-assets (logo's, badges) die tussen image-rebuilds bewaard blijven.

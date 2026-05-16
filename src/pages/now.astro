@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NowContent from '../components/pages/NowContent';
+---
+<Layout
+  title="Now — Joseph Pire"
+  description="Ce qui occupe Joseph Pire en ce moment : projets en cours, lectures, apprentissages, et ce qu'il refuse aujourd'hui."
+  currentPage="now"
+  lang="fr"
+>
+  <NowContent lang="fr" client:visible />
+</Layout>

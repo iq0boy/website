@@ -7,10 +7,22 @@ export default function FooterI18n({ lang }: { lang: Lang }) {
 
   const navLinks = [
     [t('nav_home'), lp('/')],
+    [t('about_label'), lp('/about')],
     [t('nav_services'), lp('/services')],
     [t('nav_portfolio'), lp('/portfolio')],
     [t('nav_blog'), lp('/blog')],
+    [t('now_label'), lp('/now')],
+    [t('uses_label'), lp('/uses')],
+    [t('collab_label'), lp('/collaborate')],
+    [t('press_label'), lp('/press')],
     [t('nav_contact'), lp('/contact')],
+    [t('nav_book'), lp('/book')],
+  ];
+
+  const legalLinks: [string, string][] = [
+    [(lang === 'fr' ? 'Mentions légales' : lang === 'nl' ? 'Wettelijke vermelding' : 'Legal notice'), lp('/legal')],
+    [(lang === 'fr' ? 'Confidentialité' : lang === 'nl' ? 'Privacy' : 'Privacy'), lp('/privacy')],
+    [(lang === 'fr' ? 'Conditions générales' : lang === 'nl' ? 'Voorwaarden' : 'Terms'), lp('/terms')],
   ];
 
   const linkStyle: React.CSSProperties = {
@@ -56,12 +68,33 @@ export default function FooterI18n({ lang }: { lang: Lang }) {
           </div>
           <div>
             <p className="label" style={{ marginBottom: 16 }}>{t('footer_contact')}</p>
-            <a href="mailto:hello@josephpire.dev" style={{ color: 'var(--accent)', fontSize: '0.9rem' }}>hello@josephpire.dev</a>
+            <a href="mailto:josephpire.dev@gmail.com" style={{ color: 'var(--accent)', fontSize: '0.9rem' }}>josephpire.dev@gmail.com</a>
+            <a
+              href="/rss.xml"
+              style={{ ...linkStyle, marginTop: 16, fontFamily: 'var(--font-mono)', fontSize: '0.75rem', letterSpacing: '0.05em' }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
+            >
+              RSS ↗
+            </a>
           </div>
         </div>
         <div className="divider" style={{ marginBottom: 30 }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{t('rights')}</p>
+          <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
+            {legalLinks.map(([label, href]) => (
+              <a
+                key={href}
+                href={href}
+                style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-muted)', textDecoration: 'none', transition: 'color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
+              >
+                {label}
+              </a>
+            ))}
+          </div>
           <p style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', fontSize: '0.7rem' }}>{t('built_with')}</p>
         </div>
       </div>

@@ -1,3 +1,13 @@
+@import '@fontsource/instrument-serif/400.css';
+@import '@fontsource/instrument-serif/400-italic.css';
+@import '@fontsource/space-grotesk/300.css';
+@import '@fontsource/space-grotesk/400.css';
+@import '@fontsource/space-grotesk/500.css';
+@import '@fontsource/space-grotesk/600.css';
+@import '@fontsource/space-grotesk/700.css';
+@import '@fontsource/jetbrains-mono/300.css';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/500.css';
 
 :root, :root[data-theme="dark"] {
   --bg-primary: oklch(0.12 0.008 270);
@@ -416,3 +426,17 @@ textarea { resize: vertical; min-height: 120px; }
 .prose a { color: var(--accent); }
 .prose strong { color: var(--text-primary); font-weight: 600; }
 .prose hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+.prose img { display: block; max-width: 100%; height: auto; margin: 32px 0; border: 1px solid var(--border); border-radius: 4px; }
+.prose figure { margin: 32px 0; }
+.prose figure img { margin: 0; }
+.prose figcaption { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .page-wrapper { animation: none !important; }
+}

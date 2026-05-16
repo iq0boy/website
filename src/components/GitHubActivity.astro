@@ -1,0 +1,82 @@
+---
+import { fetchRecentActivity } from '../lib/github-activity';
+import { TRANSLATIONS } from '../lib/i18n';
+import type { Lang } from '../lib/i18n';
+import { PROFILE } from '../lib/profile';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const items = await fetchRecentActivity(6);
+const githubProfileUrl = `https://github.com/${PROFILE.githubHandle}`;
+
+const t = (key: string) => (TRANSLATIONS[lang] as Record<string, string>)[key] ?? key;
+
+const locales: Record<Lang, string> = { fr: 'fr-BE', en: 'en-US', nl: 'nl-BE' };
+
+function relative(iso: string): string {
+  const then = new Date(iso).getTime();
+  const diffMs = Date.now() - then;
+  const days = Math.floor(diffMs / 86400000);
+  if (days === 0) return new Date(iso).toLocaleTimeString(locales[lang], { hour: '2-digit', minute: '2-digit' });
+  if (days === 1) return lang === 'fr' ? 'hier' : lang === 'nl' ? 'gisteren' : 'yesterday';
+  if (days < 30) return lang === 'fr' ? `il y a ${days} j` : lang === 'nl' ? `${days} d geleden` : `${days}d ago`;
+  const months = Math.floor(days / 30);
+  return lang === 'fr' ? `il y a ${months} m` : lang === 'nl' ? `${months} m geleden` : `${months}mo ago`;
+}
+---
+
+{items.length > 0 && (
+  <section class="section-padding" style="background: var(--bg-secondary);">
+    <div class="container" style="max-width: 980px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 16px; margin-bottom: 32px;">
+        <div>
+          <p class="label" style="margin-bottom: 12px;">{t('gh_label')}</p>
+          <h2 class="heading-md">{t('gh_title')}<span style="color: var(--accent);">.</span></h2>
+        </div>
+        <a
+          href={githubProfileUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style="font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--accent); text-decoration: none;"
+        >
+          {t('gh_view_all')} ↗
+        </a>
+      </div>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        {items.map(item => (
+          <li
+            style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; padding: 14px 0; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.82rem; align-items: baseline;"
+          >
+            <div style="min-width: 0;">
+              <span style="color: var(--text-muted);">{item.type}</span>{' '}
+              <a
+                href={item.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style="color: var(--accent); text-decoration: none;"
+              >
+                {item.repo.split('/')[1]}
+              </a>
+              {' — '}
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style="color: var(--text-primary); text-decoration: none; border-bottom: 1px solid transparent;"
+              >
+                {item.message}
+              </a>
+            </div>
+            <span style="color: var(--text-muted); white-space: nowrap; font-size: 0.7rem;">{relative(item.isoDate)}</span>
+          </li>
+        ))}
+      </ul>
+      <p style="margin-top: 20px; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.05em;">
+        {t('gh_built_at')} {new Date().toLocaleDateString(locales[lang], { day: 'numeric', month: 'short', year: 'numeric' })}
+      </p>
+    </div>
+  </section>
+)}

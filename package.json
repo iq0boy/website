@@ -7,20 +7,33 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pagefind --site dist",
+    "build:astro": "astro build",
+    "blog:heroes": "node scripts/generate-blog-heroes.mjs",
+    "indexnow": "node scripts/indexnow.mjs",
+    "check:build": "node scripts/check-build.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/react": "^5.0.3",
+    "@astrojs/react": "^5.0.4",
+    "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
+    "@fontsource/instrument-serif": "^5.2.8",
+    "@fontsource/jetbrains-mono": "^5.2.8",
     "@fontsource/space-grotesk": "^5.2.10",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "astro": "^6.1.8",
+    "astro": "^6.3.1",
+    "pagefind": "^1.5.2",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "satori": "^0.26.0",
     "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "playwright": "^1.60.0",
+    "typescript": "^6.0.3"
   }
 }

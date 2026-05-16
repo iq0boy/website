@@ -1,0 +1,17 @@
+{
+  "name": "Joseph Pire — Full-Stack Developer & Designer",
+  "short_name": "Joseph Pire",
+  "description": "Personal site and portfolio of Joseph Pire — full-stack developer and designer based in Belgium.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a1816",
+  "theme_color": "#1a1816",
+  "lang": "fr-BE",
+  "categories": ["business", "productivity", "portfolio"],
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" },
+    { "src": "/favicon.ico", "type": "image/x-icon", "sizes": "48x48 32x32 16x16" }
+  ]
+}

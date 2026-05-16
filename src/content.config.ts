@@ -2,18 +2,21 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 const blog = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
+  loader: glob({ pattern: ['**/*.md', '!**/_*.md'], base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
     excerpt: z.string(),
     pubDate: z.date(),
+    updatedDate: z.date().optional(),
     category: z.string(),
     readTime: z.number(),
+    draft: z.boolean().optional(),
+    tags: z.array(z.string()).optional(),
   }),
 });
 
 const projects = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
+  loader: glob({ pattern: ['**/*.md', '!**/_*.md'], base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
     excerpt: z.string(),
@@ -23,7 +26,18 @@ const projects = defineCollection({
     color: z.string(),
     liveUrl: z.string().optional(),
     githubUrl: z.string().optional(),
+    updatedDate: z.date().optional(),
+    featured: z.boolean().optional(),
   }),
 });
 
-export const collections = { blog, projects };
+const legal = defineCollection({
+  loader: glob({ pattern: ['**/*.md', '!**/_*.md'], base: './src/content/legal' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    updatedDate: z.date(),
+  }),
+});
+
+export const collections = { blog, projects, legal };

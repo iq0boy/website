@@ -1,7 +1,8 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import Nav from '../components/Nav';
-import ChatWidget from '../components/ChatWidget';
 import FooterI18n from '../components/FooterI18n';
+import SearchModal from '../components/SearchModal';
 import '../styles/global.css';
 import type { Lang } from '../lib/i18n';
 
@@ -14,6 +15,14 @@ interface Props {
   type?: 'website' | 'article';
   pubDate?: Date;
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  // Locales for which this exact page is available. Defaults to all three.
+  // When a page only exists in some locales, pass the subset so hreflang
+  // alternates don't point at 404s.
+  availableLocales?: Lang[];
+  // Canonical override — if this page is a fallback (e.g. EN slug serving FR
+  // content because the translation isn't done yet), set canonical to the
+  // original-locale URL.
+  canonicalOverride?: string;
 }
 
 const {
@@ -25,9 +34,11 @@ const {
   type = 'website',
   pubDate,
   structuredData,
+  availableLocales = ['fr', 'en', 'nl'],
+  canonicalOverride,
 } = Astro.props;
 
-const siteUrl = 'https://josephpire.dev';
+const siteUrl = Astro.site ? Astro.site.origin : 'https://josephpire.dev';
 const pathname = Astro.url.pathname;
 
 // Strip lang prefix to get locale-neutral base path
@@ -35,10 +46,11 @@ const basePath = lang !== 'fr'
   ? pathname.replace(new RegExp(`^\\/${lang}(?=/|$)`), '') || '/'
   : pathname;
 
-const canonicalUrl = `${siteUrl}${pathname}`;
+const canonicalUrl = canonicalOverride ?? `${siteUrl}${pathname}`;
 const enUrl = `${siteUrl}${basePath === '/' ? '/en' : `/en${basePath}`}`;
 const nlUrl = `${siteUrl}${basePath === '/' ? '/nl' : `/nl${basePath}`}`;
 const frUrl = `${siteUrl}${basePath}`;
+const has = (l: Lang) => availableLocales.includes(l);
 
 // Default OG image — absolute URL required by the spec
 const resolvedOgImage = ogImage
@@ -51,9 +63,21 @@ const safeJson = (obj: Record<string, unknown>) =>
     .replace(/>/g, '\\u003e')
     .replace(/&/g, '\\u0026');
 
-const schemas: Record<string, unknown>[] = structuredData
+const userSchemas: Record<string, unknown>[] = structuredData
   ? (Array.isArray(structuredData) ? structuredData : [structuredData])
   : [];
+
+// Site-wide WebSite schema — present on every page, enables sitelinks search box
+const websiteLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  url: siteUrl,
+  name: 'Joseph Pire',
+  inLanguage: ['fr-BE', 'en', 'nl-BE'],
+  publisher: { '@type': 'Person', name: 'Joseph Pire', url: siteUrl },
+};
+
+const schemas = [websiteLd, ...userSchemas];
 ---
 <!DOCTYPE html>
 <html lang={lang} data-theme="dark">
@@ -63,17 +87,18 @@ const schemas: Record<string, unknown>[] = structuredData
   <title>{title}</title>
   <meta name="description" content={description} />
   <meta name="author" content="Joseph Pire" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" href="/favicon.ico" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#1a1816" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
   <link rel="canonical" href={canonicalUrl} />
-  <link rel="alternate" hreflang="fr" href={frUrl} />
-  <link rel="alternate" hreflang="en" href={enUrl} />
-  <link rel="alternate" hreflang="nl" href={nlUrl} />
-  <link rel="alternate" hreflang="x-default" href={frUrl} />
+  {has('fr') && <link rel="alternate" hreflang="fr" href={frUrl} />}
+  {has('en') && <link rel="alternate" hreflang="en" href={enUrl} />}
+  {has('nl') && <link rel="alternate" hreflang="nl" href={nlUrl} />}
+  {has('fr') && <link rel="alternate" hreflang="x-default" href={frUrl} />}
   <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Joseph Pire — Blog" href={lang === 'fr' ? '/rss.xml' : `/${lang}/rss.xml`} />
   <meta property="og:site_name" content="Joseph Pire" />
   <meta property="og:type" content={type} />
   <meta property="og:url" content={canonicalUrl} />
@@ -95,6 +120,7 @@ const schemas: Record<string, unknown>[] = structuredData
   {schemas.map(schema => (
     <script type="application/ld+json" set:html={safeJson(schema)} />
   ))}
+  <ClientRouter fallback="swap" />
   <slot name="head" />
   <script is:inline>
     (function() {
@@ -105,9 +131,9 @@ const schemas: Record<string, unknown>[] = structuredData
 </head>
 <body>
   <div class="noise-overlay"></div>
-  <Nav currentPage={currentPage} lang={lang} client:load />
+  <Nav currentPage={currentPage} lang={lang} client:load transition:persist />
   <slot />
+  <SearchModal lang={lang} client:idle transition:persist />
   <FooterI18n lang={lang} client:visible />
-  <ChatWidget lang={lang} client:idle />
 </body>
 </html>

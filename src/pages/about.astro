@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AboutContent from '../components/pages/AboutContent';
+
+const siteUrl = Astro.site ? Astro.site.origin : 'https://josephpire.dev';
+const aboutLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  inLanguage: 'fr',
+  url: `${siteUrl}/about`,
+  about: { '@id': `${siteUrl}/#person` },
+};
+---
+<Layout
+  title="À propos — Joseph Pire"
+  description="Joseph Pire — développeur full-stack et designer freelance en Belgique. Mon parcours, ma façon de travailler, et avec qui je collabore."
+  currentPage="about"
+  lang="fr"
+  structuredData={aboutLd}
+>
+  <AboutContent lang="fr" client:visible />
+</Layout>

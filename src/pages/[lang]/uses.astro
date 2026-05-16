@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import UsesContent from '../../components/pages/UsesContent';
+import type { Lang } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' }, props: { lang: 'en' as Lang } },
+    { params: { lang: 'nl' }, props: { lang: 'nl' as Lang } },
+  ];
+}
+
+const { lang } = Astro.props;
+
+const descs: Record<Lang, string> = {
+  fr: '',
+  en: 'The hardware, software, and habits Joseph Pire — full-stack developer and designer based in Belgium — relies on day-to-day.',
+  nl: 'De hardware, software en gewoonten waarmee Joseph Pire — full-stack developer en designer in België — dagelijks werkt.',
+};
+const titles: Record<Lang, string> = {
+  fr: 'Uses — Joseph Pire',
+  en: 'Uses — Joseph Pire',
+  nl: 'Uses — Joseph Pire',
+};
+---
+<Layout title={titles[lang]} description={descs[lang]} currentPage="uses" lang={lang}>
+  <UsesContent lang={lang} client:visible />
+</Layout>

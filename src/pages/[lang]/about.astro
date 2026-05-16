@@ -1,0 +1,37 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AboutContent from '../../components/pages/AboutContent';
+import type { Lang } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'en' }, props: { lang: 'en' as Lang } },
+    { params: { lang: 'nl' }, props: { lang: 'nl' as Lang } },
+  ];
+}
+
+const { lang } = Astro.props;
+const siteUrl = Astro.site ? Astro.site.origin : 'https://josephpire.dev';
+
+const titles: Record<Lang, string> = {
+  fr: 'À propos — Joseph Pire',
+  en: 'About — Joseph Pire',
+  nl: 'Over mij — Joseph Pire',
+};
+const descs: Record<Lang, string> = {
+  fr: '',
+  en: 'Joseph Pire — freelance full-stack developer and designer based in Belgium. My background, how I work, and who I collaborate with.',
+  nl: 'Joseph Pire — freelance full-stack developer en designer in België. Mijn achtergrond, hoe ik werk, en met wie ik samenwerk.',
+};
+
+const aboutLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  inLanguage: lang,
+  url: `${siteUrl}${Astro.url.pathname}`,
+  about: { '@id': `${siteUrl}/#person` },
+};
+---
+<Layout title={titles[lang]} description={descs[lang]} currentPage="about" lang={lang} structuredData={aboutLd}>
+  <AboutContent lang={lang} client:visible />
+</Layout>

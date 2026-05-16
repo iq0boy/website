@@ -2,34 +2,53 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-// Build slug → pubDate map from French blog frontmatter (source of truth for dates)
-function buildBlogDates() {
+/**
+ * @param {string} dir
+ * @param {string} dateField
+ * @returns {Map<string, Date>}
+ */
+function buildContentDates(dir, dateField) {
+  /** @type {Map<string, Date>} */
   const map = new Map();
-  const dir = resolve('./src/content/blog/fr');
-  for (const file of readdirSync(dir)) {
+  const full = resolve(dir);
+  if (!existsSync(full)) return map;
+  for (const file of readdirSync(full)) {
     if (!file.endsWith('.md')) continue;
-    const content = readFileSync(resolve(dir, file), 'utf-8');
-    const match = content.match(/pubDate:\s*(\S+)/);
+    const content = readFileSync(resolve(full, file), 'utf-8');
+    const match = content.match(new RegExp(`${dateField}:\\s*(\\S+)`));
     if (match) map.set(file.replace('.md', ''), new Date(match[1]));
   }
   return map;
 }
 
-const blogDates = buildBlogDates();
+const blogDates = buildContentDates('./src/content/blog/fr', 'pubDate');
+const projectUpdatedDates = buildContentDates('./src/content/projects/fr', 'updatedDate');
 
 export default defineConfig({
   site: 'https://josephpire.dev',
+  trailingSlash: 'ignore',
+  prefetch: { defaultStrategy: 'hover', prefetchAll: true },
   integrations: [
     react(),
     sitemap({
+      i18n: {
+        defaultLocale: 'fr',
+        locales: { fr: 'fr-BE', en: 'en-US', nl: 'nl-BE' },
+      },
+      /** @type {(item: import('@astrojs/sitemap').SitemapItem) => any} */
       serialize(item) {
         const blogSlug = item.url.match(/\/blog\/([^/]+)\/?$/)?.[1];
         if (blogSlug) {
           const date = blogDates.get(blogSlug);
-          if (date) return { ...item, lastmod: date, changefreq: 'monthly' };
+          if (date) return { ...item, lastmod: date.toISOString(), changefreq: 'monthly' };
+        }
+        const projectSlug = item.url.match(/\/portfolio\/([^/]+)\/?$/)?.[1];
+        if (projectSlug) {
+          const date = projectUpdatedDates.get(projectSlug);
+          if (date) return { ...item, lastmod: date.toISOString(), changefreq: 'yearly' };
         }
         return item;
       },

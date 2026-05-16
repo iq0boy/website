@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useLang, useAnimatedCounter, useRevealEffect, localePath } from '../../lib/i18n';
 import type { Lang } from '../../lib/i18n';
+import type { ProjectItem } from '../PortfolioGrid';
+import Testimonials from '../Testimonials';
+import AvailabilityBadge from '../AvailabilityBadge';
+import { STATS } from '../../lib/profile';
 
 function HeroGradients() {
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
@@ -32,7 +36,7 @@ function Counter({ end, suffix, label }: { end: number; suffix: string; label: s
   );
 }
 
-export default function HomeContent({ lang }: { lang: Lang }) {
+export default function HomeContent({ lang, featuredProjects }: { lang: Lang; featuredProjects: ProjectItem[] }) {
   const { t } = useLang(lang);
   const containerRef = useRevealEffect();
   const lp = (path: string) => localePath(lang, path);
@@ -45,15 +49,9 @@ export default function HomeContent({ lang }: { lang: Lang }) {
   ];
 
   const stats = [
-    { num: 8, suffix: '+', labelKey: 'stat_years' },
-    { num: 120, suffix: '+', labelKey: 'stat_projects' },
-    { num: 45, suffix: '+', labelKey: 'stat_clients' },
-    { num: 99, suffix: '%', labelKey: 'stat_sat' },
-  ];
-
-  const featuredProjects = [
-    { title: 'E-Commerce Platform', tags: ['React', 'Node.js', 'Stripe'], color: 'oklch(0.35 0.05 250)' },
-    { title: 'SaaS Dashboard', tags: ['Next.js', 'PostgreSQL', 'D3'], color: 'oklch(0.30 0.05 150)' },
+    { num: STATS.years, suffix: '+', labelKey: 'stat_years' },
+    { num: STATS.projects, suffix: '+', labelKey: 'stat_projects' },
+    { num: STATS.clients, suffix: '+', labelKey: 'stat_clients' },
   ];
 
   return (
@@ -68,11 +66,14 @@ export default function HomeContent({ lang }: { lang: Lang }) {
             <span style={{ fontStyle: 'italic', color: 'var(--accent)' }}>{t('home_title_2')}</span>{' '}
             {t('home_title_3')}
           </h1>
-          <div className="reveal" style={{ maxWidth: 520, marginBottom: 48 }}>
+          <div className="reveal" style={{ maxWidth: 520, marginBottom: 32 }}>
             <p className="body-lg">{t('home_desc')}</p>
           </div>
+          <div className="reveal" style={{ marginBottom: 32 }}>
+            <AvailabilityBadge lang={lang} variant="compact" />
+          </div>
           <div className="reveal" style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
-            <a href={lp('/contact')} className="btn-primary">
+            <a href={lp('/book')} className="btn-primary">
               {t('home_cta_start')}
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
@@ -137,16 +138,19 @@ export default function HomeContent({ lang }: { lang: Lang }) {
           <h2 className="heading-lg reveal" style={{ marginBottom: 64 }}>
             {t('portfolio')}<span style={{ color: 'var(--accent)' }}>.</span>
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 24 }}>
-            {featuredProjects.map((p, i) => (
-              <a key={i} href={lp('/portfolio')} className="feat-card" style={{ display: 'block', textDecoration: 'none' }}>
-                <div className="feat-thumb" style={{ background: p.color, height: 340, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 24 }}>
+            {featuredProjects.map(p => (
+              <a key={p.slug} href={lp(`/portfolio/${p.slug}`)} className="feat-card" style={{ display: 'block', textDecoration: 'none' }}>
+                <div className="feat-thumb" style={{ background: p.color, height: 340, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'oklch(0.7 0 0)' }}>
                   [ project screenshot ]
                 </div>
                 <div className="feat-overlay">
-                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', marginBottom: 12, color: 'oklch(0.95 0 0)' }}>{p.title}</h3>
-                  <div style={{ display: 'flex', gap: 8 }}>
-                    {p.tags.map(tag => (
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 12 }}>
+                    <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', color: 'oklch(0.95 0 0)' }}>{p.title}</h3>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'oklch(0.75 0 0)', flexShrink: 0, marginTop: 8 }}>{p.year}</span>
+                  </div>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    {p.tags.slice(0, 3).map(tag => (
                       <span key={tag} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', padding: '4px 10px', border: '1px solid oklch(0.65 0 0)', color: 'oklch(0.85 0 0)' }}>{tag}</span>
                     ))}
                   </div>
@@ -159,6 +163,8 @@ export default function HomeContent({ lang }: { lang: Lang }) {
           </div>
         </div>
       </section>
+
+      <Testimonials lang={lang} />
 
       {/* CTA */}
       <section style={{ padding: 'clamp(80px, 15vh, 180px) 0', background: 'var(--bg-secondary)', textAlign: 'center' }}>

@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BookContent from '../components/pages/BookContent';
+---
+<Layout
+  title="Réserver un appel — Joseph Pire"
+  description="Réservez un appel de découverte de 30 minutes avec Joseph Pire — développeur full-stack et designer freelance basé en Belgique."
+  currentPage="book"
+  lang="fr"
+>
+  <BookContent lang="fr" client:load />
+</Layout>

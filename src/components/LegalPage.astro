@@ -1,0 +1,53 @@
+---
+import { getEntry, render } from 'astro:content';
+import { localePath } from '../lib/i18n';
+import type { Lang } from '../lib/i18n';
+import { buildBreadcrumbLd } from '../lib/breadcrumbs';
+
+interface Props {
+  lang: Lang;
+  slug: 'legal' | 'privacy' | 'terms';
+}
+
+const { lang, slug } = Astro.props;
+
+const entry = await getEntry('legal', `${lang}/${slug}`);
+if (!entry) throw new Error(`Legal entry ${lang}/${slug} not found`);
+
+const { Content } = await render(entry);
+const updated = entry.data.updatedDate.toLocaleDateString(
+  lang === 'fr' ? 'fr-BE' : lang === 'nl' ? 'nl-BE' : 'en-US',
+  { day: 'numeric', month: 'long', year: 'numeric' },
+);
+
+const siteUrl = Astro.site ? Astro.site.origin : 'https://josephpire.dev';
+const breadcrumbLd = buildBreadcrumbLd(siteUrl, lang, [
+  { name: entry.data.title, path: localePath(lang, `/${slug}/`) },
+]);
+---
+<section style="padding-top: clamp(140px, 20vh, 200px); padding-bottom: clamp(40px, 6vh, 60px);">
+  <div style="max-width: 760px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 80px);">
+    <p style="font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 24px;">
+      Legal
+    </p>
+    <h1 style="font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.5rem); line-height: 1.1; margin-bottom: 24px;">
+      {entry.data.title}
+    </h1>
+    <p style="font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 56px;">
+      v · {updated}
+    </p>
+    <div class="prose legal-prose">
+      <Content />
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026')} />
+
+<style>
+  .legal-prose :global(h2) { font-size: 1.5rem; margin-top: 48px; }
+  .legal-prose :global(h3) { font-size: 1.15rem; margin-top: 32px; }
+  .legal-prose :global(strong) { color: var(--text-primary); }
+  .legal-prose :global(p), .legal-prose :global(li) { color: var(--text-secondary); }
+  .legal-prose :global(em) { color: var(--text-muted); }
+</style>

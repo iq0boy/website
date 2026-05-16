@@ -2,6 +2,10 @@
 import Layout from '../layouts/Layout.astro';
 import PortfolioContent from '../components/pages/PortfolioContent';
 import { getCollection } from 'astro:content';
+import { buildBreadcrumbLd } from '../lib/breadcrumbs';
+
+const siteUrl = Astro.site ? Astro.site.origin : 'https://josephpire.dev';
+const breadcrumbLd = buildBreadcrumbLd(siteUrl, 'fr', [{ name: 'Projets', path: '/portfolio/' }]);
 
 const allProjects = await getCollection('projects', ({ id }) => id.startsWith('fr/'));
 const projects = allProjects
@@ -22,6 +26,7 @@ const projects = allProjects
   description="Projets sélectionnés de Joseph Pire : plateformes e-commerce, dashboards SaaS, apps mobiles, outils IA et plus. Développement full-stack et design."
   currentPage="portfolio"
   lang="fr"
+  structuredData={breadcrumbLd}
 >
   <PortfolioContent lang="fr" projects={projects} client:visible />
 </Layout>

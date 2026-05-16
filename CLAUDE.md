@@ -60,3 +60,8 @@ Beyond translations, this module also exports reusable React hooks:
 - `useTheme()` — dark/light toggle
 - `useReveal(threshold)` / `useRevealEffect()` — IntersectionObserver-based scroll reveal
 - `useAnimatedCounter(end)` — count-up animation on scroll into view
+
+### Environment variables
+
+Copy `.env.example` to `.env` and fill in:
+- `PUBLIC_WEB3FORMS_KEY` — Web3Forms access key used by `ContactSection.tsx` to submit the contact form. Public by design (domain-restricted on Web3Forms' side).
