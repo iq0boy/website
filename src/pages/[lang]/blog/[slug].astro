@@ -12,11 +12,11 @@ export async function getStaticPaths() {
   // translation exists in that locale we serve it; otherwise we fall back to
   // the FR post and set canonical/availableLocales to reflect reality.
   const langs: Lang[] = ['en', 'nl'];
-  const frPosts = await getCollection('blog', ({ id }) => id.startsWith('fr/'));
+  const frPosts = await getCollection('blog', ({ id, data }) => id.startsWith('fr/') && (!data.draft || import.meta.env.DEV));
   const langPostsByLang = await Promise.all(
     langs.map(async lang => ({
       lang,
-      posts: await getCollection('blog', ({ id }) => id.startsWith(lang + '/')),
+      posts: await getCollection('blog', ({ id, data }) => id.startsWith(lang + '/') && (!data.draft || import.meta.env.DEV)),
     })),
   );
 
@@ -54,7 +54,7 @@ const slug = post.id.split('/').slice(1).join('/').replace(/\.md$/, '');
 const siteUrl = Astro.site ? Astro.site.origin : 'https://josephpire.dev';
 const blogListUrl = `${siteUrl}${localePath(lang, '/blog')}/`;
 
-const allPosts = await getCollection('blog', ({ id }) => id.startsWith(lang + '/'));
+const allPosts = await getCollection('blog', ({ id, data }) => id.startsWith(lang + '/') && (!data.draft || import.meta.env.DEV));
 const related = allPosts
   .filter(p => p.id !== post.id)
   .sort((a, b) => {

@@ -7,7 +7,7 @@ export async function getStaticPaths() {
   const langs: Lang[] = ['en', 'nl'];
   const results = await Promise.all(
     langs.map(async lang => {
-      const posts = await getCollection('blog', ({ id }) => id.startsWith(lang + '/'));
+      const posts = await getCollection('blog', ({ id, data }) => id.startsWith(lang + '/') && (!data.draft || import.meta.env.DEV));
       return posts.map(post => ({
         params: { lang, slug: post.id.split('/').slice(1).join('/') },
         props: { lang, title: post.data.title, category: post.data.category },

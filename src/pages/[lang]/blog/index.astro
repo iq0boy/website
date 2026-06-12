@@ -15,7 +15,7 @@ const { lang } = Astro.props;
 
 const locales: Record<Lang, string> = { fr: 'fr-BE', en: 'en-US', nl: 'nl-BE' };
 
-const allPosts = await getCollection('blog', ({ id }) => id.startsWith(lang + '/'));
+const allPosts = await getCollection('blog', ({ id, data }) => id.startsWith(lang + '/') && (!data.draft || import.meta.env.DEV));
 const posts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .map(p => ({

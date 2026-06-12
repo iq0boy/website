@@ -7,7 +7,7 @@ import { buildBreadcrumbLd } from '../../lib/breadcrumbs';
 const siteUrl = Astro.site ? Astro.site.origin : 'https://josephpire.dev';
 const breadcrumbLd = buildBreadcrumbLd(siteUrl, 'fr', [{ name: 'Blog', path: '/blog/' }]);
 
-const allPosts = await getCollection('blog', ({ id }) => id.startsWith('fr/'));
+const allPosts = await getCollection('blog', ({ id, data }) => id.startsWith('fr/') && (!data.draft || import.meta.env.DEV));
 const posts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .map(p => ({

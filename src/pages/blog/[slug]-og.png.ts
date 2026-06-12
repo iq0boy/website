@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import { buildPostOg } from '../../lib/og';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ id }) => id.startsWith('fr/'));
+  const posts = await getCollection('blog', ({ id, data }) => id.startsWith('fr/') && (!data.draft || import.meta.env.DEV));
   return posts.map(post => ({
     params: { slug: post.id.split('/').slice(1).join('/') },
     props: { title: post.data.title, category: post.data.category },

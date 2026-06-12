@@ -51,10 +51,11 @@ Carder is good. The other 7 are thin. Pick three to deepen.
 
 SEO weight compounds. Two more posts per quarter is the minimum to keep the blog alive.
 
-- [ ] Draft 3 more blog post topics in `src/content/blog/_template.md` style:
-  - [ ] "Drizzle vs Prisma in production: 12 months later"
-  - [ ] "I stopped using shadcn/ui — here's what I do instead"
-  - [ ] "Self-hosting Plausible on a 5€ VPS: end-to-end"
+- [x] Draft 3 more blog post topics in `src/content/blog/_template.md` style — **written as `draft: true` ×3 locales, awaiting your factual review before flipping to `draft: false`**:
+  - [x] "Drizzle vs Prisma in production: 12 months later" — grounded in carder/booker (Drizzle) vs reporter (Prisma 5 + Postgres)
+  - [x] "I stopped using shadcn/ui — here's what I do instead" — grounded in banhmingon (2 shadcn components used) vs 9 DaisyUI projects
+  - [x] "Self-hosting Plausible on a 5€ VPS: end-to-end" — ⚠️ publish only AFTER actually installing Plausible (P2 item above); it's written as the guide for that task
+  - [x] (infra) `draft: true` posts are now excluded from build/RSS/search in production, visible in `npm run dev`
 - [ ] **`/cv` page** — HTML version + downloadable `/cv.pdf` (drop the file into `public/`). `PROFILE.cvUrl` already wired.
 - [ ] Cross-publish each new post to **dev.to** and **Hashnode** with canonical pointing back to `josephpire.dev`.
 

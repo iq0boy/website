@@ -34,7 +34,7 @@ const META: Record<Lang, { title: string; description: string; langTag: string }
 export const GET: APIRoute = async (context) => {
   const lang = (context.params.lang ?? 'en') as Lang;
   const site = context.site ?? new URL('https://josephpire.dev');
-  const posts = await getCollection('blog', ({ id }) => id.startsWith(lang + '/'));
+  const posts = await getCollection('blog', ({ id, data }) => id.startsWith(lang + '/') && (!data.draft || import.meta.env.DEV));
   const sorted = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
   const meta = META[lang];
   const prefix = lang === 'fr' ? '' : `/${lang}`;

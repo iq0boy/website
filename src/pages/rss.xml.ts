@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 
 export const GET: APIRoute = async (context) => {
   const site = context.site ?? new URL('https://josephpire.dev');
-  const posts = await getCollection('blog', ({ id }) => id.startsWith('fr/'));
+  const posts = await getCollection('blog', ({ id, data }) => id.startsWith('fr/') && (!data.draft || import.meta.env.DEV));
   const sorted = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
   return rss({
