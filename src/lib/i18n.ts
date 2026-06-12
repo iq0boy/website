@@ -671,7 +671,10 @@ export function localePath(lang: Lang, path: string): string {
 
 export function getTheme(): string {
   if (typeof window === 'undefined') return 'dark';
-  return localStorage.getItem('jp-theme') || 'dark';
+  return (
+    localStorage.getItem('jp-theme') ||
+    (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
+  );
 }
 
 export function applyTheme(theme: string) {

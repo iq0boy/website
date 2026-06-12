@@ -6,11 +6,24 @@ tags: ['Astro', 'React', 'TypeScript', 'Netlify', 'Leaflet', 'i18n']
 year: '2026'
 color: 'oklch(0.25 0.08 90)'
 liveUrl: 'https://altitudemusic.be'
+updatedDate: 2026-06-12
 ---
 
 Altitude.Music is een opnamestudio en label voor opkomende artiesten in Louvain-la-Neuve. De site fungeert tegelijk als marketing-etalage en als reservatieoppervlak: een bezoeker moet in twee klikken een nummer kunnen beluisteren, het aanbod in tien seconden begrijpen en een sessie bevestigen zonder de pagina te verlaten.
 
 ![Altitude.Music hero — "Le son qui te ressemble" met het studio-team](../../../assets/projects/altitude-music/hero.png)
+
+## Het probleem
+
+Een opnamestudio verkoopt luisteren: als een bezoeker in de eerste seconden niets hoort, is het bezoek verloren. Het studioteam moest de site bovendien zelf kunnen beheren — een nummer aan het portfolio toevoegen, een journalbericht publiceren, een testimonial bijwerken — zonder telkens via een ontwikkelaar te passeren. En dat alles zonder backend om te hosten of te onderhouden.
+
+## Beperkingen
+
+- **Geen backend.** Statische hosting op Netlify: geen server, geen database, niets te onderhouden aan de infra-kant.
+- **Inhoud bewerkbaar door de studio.** Tracks, journal, testimonials en diensten moeten aanpasbaar zijn zonder code aan te raken.
+- **Echte audio zonder runtime-API** — geen Spotify-credentials te beheren in productie.
+- **Drie locales** (`fr`, `en`, `nl`) met volledige SEO per taal.
+- **Mobile-first performance**: het doelpubliek (opkomende artiesten) surft vrijwel uitsluitend op de telefoon.
 
 ## Architectuur
 
@@ -52,3 +65,20 @@ Drie locales (`fr`, `en`, `nl`) met `prefixDefaultLocale: true` — elke pagina 
 ## Hosting
 
 De site bouwt naar statische bestanden en gaat naar Netlify bij elke push op `main`. Geen backend, geen database, geen edge functions — de kalender hangt op het bestaande reservatiesysteem van de studio en het contactformulier verloopt via een transactional-email endpoint.
+
+## Contentbeheer door de studio
+
+De site bevat **Sveltia CMS**, gekoppeld aan de zes content collections (tracks, journal, testimonials, diensten…). Het studioteam bewerkt de inhoud vanuit de browser; elke save is een Git-commit die een Netlify-rebuild triggert. De studio is autonoom over zijn content, en de site blijft 100% statisch — er is onderweg geen database bijgekomen.
+
+## Wat er werd opgeleverd
+
+- 41 dagen tussen de eerste commit en productie (30 april → 9 juni 2026)
+- 11 portfoliotracks met echte audio, 6 diensten, 5 testimonials, 3 locales
+- Slechts een tiental runtime-dependencies; het grootste deel van de homepage verstuurt geen JavaScript
+- Gehashte assets geserveerd met een immutable cache van één jaar
+- Sveltia CMS actief op alle 6 collecties — de studio publiceert zonder ontwikkelaar
+
+## Lessen
+
+- **Kritieke content hoort niet in een eiland.** Sectietitels leefden aanvankelijk in de React-componenten: ze verschenen pas na hydratatie. Ze zijn verplaatst naar statische `.astro` — wat de first paint en crawlers moeten zien, moet server-side gerenderd worden.
+- **Het Spotify-syncscript is een bewust compromis.** Het parseert de publieke embed-pagina in plaats van de officiële API: geen credentials te beheren, maar niet-contractuele HTML die kan breken. Aanvaardbaar omdat het lokaal draait bij het toevoegen van een nummer — nooit at runtime, nooit in CI.

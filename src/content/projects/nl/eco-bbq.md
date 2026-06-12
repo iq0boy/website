@@ -6,11 +6,23 @@ tags: ['Astro', 'Svelte', 'Tailwind', 'DaisyUI', 'OpenLayers', 'Swiper', 'TypeSc
 year: '2025'
 color: 'oklch(0.30 0.08 145)'
 liveUrl: 'https://www.eco-bbq.eu/'
+updatedDate: 2026-06-12
 ---
 
 Eco-BBQ is een zero-waste wegwerp-barbecuekit die verdeeld wordt in België, Frankrijk, Spanje en Portugal. De site fungeert tegelijk als consumentenetalage (hoe het werkt, waar te kopen) en als B2B-funnel voor verkopers die het product willen aanbieden. Drie locales, volledig statisch, gehost bij Combell.
 
 ![Eco-BBQ hero met de productkit en drie voordeel-pillen: snel, zero-waste, eenvoudig](../../../assets/projects/eco-bbq-v2/hero.png)
+
+## Het probleem
+
+Deze site is een v2 — en v1 is de echte les van het project. De eerste versie had 79 commits over twee maanden opgestapeld: overal GSAP-animaties, een "story"-pagina, een Svelte-carrousel van derden… en meer dan twintig layout- en overflow-fixes veroorzaakt door die complexiteit. De build woog 30 MB voor een landingspagina. In plaats van te blijven oplappen werd de site van nul herschreven op een bewust eenvoudigere basis.
+
+## Beperkingen
+
+- **Combell shared hosting**: alleen statisch, geen server, geen build aan hostingkant.
+- **Leads vangen zonder backend** — consumentencontact en B2B-aanvragen van verkopers.
+- **Drie locales met vertaalde slugs** (`/fr/partenariat`, `/en/partnership`, `/nl/partnerschap`).
+- **Een korte rewrite**: v2 moest snel uitkomen om de klant geen tweede keer te blokkeren.
 
 ## Architectuur
 
@@ -32,9 +44,9 @@ De "hoe het werkt"-sectie combineert een YouTube-uitleg met een strook van vier 
 
 ## Testimonials
 
-Veertien echte klantverhalen worden als een statisch raster op desktop weergegeven en als een Swiper-carrousel op mobiel. Elke kaart is server-gerenderde HTML; de carrousel-JS hecht zich alleen onder de mobile-breakpoint aan, dus desktopbezoekers betalen er niets voor.
+Acht echte klantverhalen per taal worden als een statisch raster op desktop weergegeven en als een Swiper-carrousel op mobiel. Elke kaart is server-gerenderde HTML; de carrousel-JS hecht zich alleen onder de mobile-breakpoint aan, dus desktopbezoekers betalen er niets voor.
 
-![Testimonial-raster — veertien echte klantcitaten met namen](../../../assets/projects/eco-bbq-v2/testimonials.png)
+![Testimonial-raster — echte klantcitaten met namen](../../../assets/projects/eco-bbq-v2/testimonials.png)
 
 ## Verkopers-Kaart
 
@@ -47,3 +59,16 @@ Drie locales (`fr`, `en`, `nl`) waarbij de Franse prefix behouden blijft (`/fr/`
 ## Hosting
 
 Statische build gepusht naar **Combell** shared hosting. Geen server, geen database, geen API — het contactformulier gaat naar Formspree en het partnerformulier naar een aparte Formspree-endpoint, zodat de site op goedkope statische infrastructuur kan blijven en toch leads vangt.
+
+## Wat er werd opgeleverd
+
+- Volledige rewrite in 33 dagen en 35 commits (21 december 2024 → 23 januari 2025)
+- Build bijna een derde kleiner: 30 MB → 11 MB (−63%)
+- 7 HTML-pagina's over 3 locales, 61 verkooppunten op de kaart, 8 testimonials per taal, 9 partnerlogo's
+- Twee Formspree-leadfunnels: consumentencontact en B2B-partnerschap
+
+## Lessen
+
+- **Herschrijven was goedkoper dan oplappen.** V1 bleef layout-fixes opstapelen door zijn animaties; v2 schrapt GSAP, de "story"-pagina en de carrousel van derden — de bugs verdwenen samen met de complexiteit.
+- **Eén gehydrateerd eiland volstaat.** Alleen de verkoperskaart verdient framework-JavaScript; al de rest is statische HTML. Elke toevoeging van interactiviteit moet haar plaats verdienen.
+- **Minder bibliotheken, minder integratiebugs.** Standalone Swiper vervangt de Svelte-carrousel van derden die in v1 problemen gaf — één beproefde dependency in plaats van twee fragiele.

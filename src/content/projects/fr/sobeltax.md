@@ -7,11 +7,24 @@ tags:
 year: '2025'
 color: 'oklch(0.28 0.10 155)'
 liveUrl: 'https://sobeltaxrental.be'
+updatedDate: 2026-06-12
 ---
 
 Sobeltax est une plateforme de location de véhicules ciblant le marché belge, disponible en français, néerlandais et anglais. L'enjeu était de livrer un tunnel de réservation fluide, une gestion multi-agences avec localisation cartographique et un espace client complet, dans une application performante sans dépendre d'un framework monolithique.
 
 ![Page d'accueil Sobeltax avec tunnel de réservation et flotte mise en avant](../../../assets/projects/sobeltax/home.png)
+
+## Le problème
+
+Le site historique tournait sur une stack legacy (pages `.awp` générées par WebDev) : difficile à faire évoluer, impossible à aligner sur l'image de la marque, et sans véritable tunnel de réservation en ligne. Les données métier — flotte, disponibilités, agences, comptes clients — vivaient déjà dans la plateforme interne `platform.sobeltaxrental.be`. Le nouveau site devait donc être un front pur : zéro base de données locale, chaque lecture et chaque écriture passe par l'API de la plateforme.
+
+## Contraintes
+
+- **Pas de base de données locale.** La plateforme métier reste la source de vérité unique ; le site consomme son API pour tout : disponibilités, agences, réservations, espace client.
+- **Une API qui précède le site.** Elle n'a pas été dessinée pour ce front — certaines données (familles et catégories de véhicules notamment) arrivent incomplètes et demandent un mapping côté front.
+- **Trois langues dès le premier jour** — `fr`, `nl`, `en`, sur le marché belge.
+- **Authentification déléguée** : sessions côté site, tokens rafraîchis contre l'API de la plateforme via un middleware dédié.
+- **Paiement par callbacks** d'un prestataire externe, à intégrer dans le tunnel sans en casser l'état.
 
 ## Architecture
 
@@ -57,4 +70,17 @@ Le routing i18n suit le pattern Astro : `/` pour le français (locale par défau
 ## Déploiement
 
 L'application tourne sur **Docker Swarm** avec un fichier Compose dédié à la production. Le serveur Fastify écoute sur le port 3000 derrière un reverse proxy. Le build multi-stage réduit la taille de l'image finale en séparant les dépendances de développement des artefacts de production.
+
+## Ce qui a été livré
+
+- 66 pages et 53 composants, sur 3 locales
+- Tunnel de réservation en 5 étapes, espace client complet, 14 agences cartographiées, 10 familles de véhicules
+- Environ 560 commits sur 17 mois (janvier 2025 → mai 2026) — le projet est en production et toujours activement maintenu
+- Sessions Redis avec TTL de 7 jours, cache de disponibilité côté serveur
+
+## Leçons
+
+- **Une API qu'on ne contrôle pas se code défensivement.** Le rafraîchissement de tokens a produit ses cas limites, et les données incomplètes de l'API ont imposé un mapping en dur des catégories de véhicules côté front — un compromis qui fonctionne, mais qu'il faut maintenir à chaque évolution de la flotte.
+- **Valider tôt, contre des cas réels.** La validation des numéros de TVA belges a généré plusieurs correctifs après coup ; des données de test réalistes dès le départ auraient coûté moins cher.
+- **Redis entre le SSR et l'API change tout.** Le cache de disponibilité garde des pages rapides même quand la plateforme amont est lente — sur un site SSR adossé à une API tierce, c'est la différence entre un site vif et un site qui traîne la latence des autres.
 

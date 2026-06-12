@@ -30,6 +30,7 @@ const projectUpdatedDates = buildContentDates('./src/content/projects/fr', 'upda
 export default defineConfig({
   site: 'https://josephpire.dev',
   trailingSlash: 'ignore',
+  build: { inlineStylesheets: 'auto' },
   prefetch: { defaultStrategy: 'hover', prefetchAll: true },
   integrations: [
     react(),

@@ -6,11 +6,23 @@ tags: ['Astro', 'Svelte', 'Tailwind', 'DaisyUI', 'OpenLayers', 'Swiper', 'TypeSc
 year: '2025'
 color: 'oklch(0.30 0.08 145)'
 liveUrl: 'https://www.eco-bbq.eu/'
+updatedDate: 2026-06-12
 ---
 
 Eco-BBQ est un kit barbecue jetable zéro déchet distribué en Belgique, en France, en Espagne et au Portugal. Le site joue à la fois le rôle de vitrine grand public (comment ça marche, où l'acheter) et celui d'entonnoir B2B pour les revendeurs qui veulent référencer le produit. Trois locales, entièrement statique, hébergé chez Combell.
 
 ![Hero Eco-BBQ avec le kit produit et trois pastilles de bénéfices : rapide, zéro déchet, simple](../../../assets/projects/eco-bbq-v2/hero.png)
+
+## Le problème
+
+Ce site est une v2 — et la v1 est la vraie leçon du projet. La première version avait accumulé 79 commits sur deux mois : animations GSAP partout, une page « story », un carrousel Svelte tiers… et plus de vingt correctifs de layout et d'overflow causés par cette complexité. Le build pesait 30 Mo pour une landing page. Plutôt que de continuer à rafistoler, le site a été réécrit de zéro sur une base volontairement plus simple.
+
+## Contraintes
+
+- **Hébergement mutualisé Combell** : statique uniquement, pas de serveur, pas de build côté hébergeur.
+- **Capter des leads sans backend** — contact grand public et candidatures revendeurs B2B.
+- **Trois locales avec slugs traduits** (`/fr/partenariat`, `/en/partnership`, `/nl/partnerschap`).
+- **Réécriture courte** : la v2 devait sortir vite pour ne pas immobiliser le client une deuxième fois.
 
 ## Architecture
 
@@ -32,9 +44,9 @@ La section « comment ça marche » combine une vidéo explicative YouTube et un
 
 ## Témoignages
 
-Quatorze vrais témoignages clients sont rendus en grille statique sur desktop et en carrousel Swiper sur mobile. Chaque carte est du HTML rendu côté serveur ; le JS du carrousel ne s'attache que sous le breakpoint mobile, donc les visiteurs desktop ne le payent pas.
+Huit vrais témoignages clients par langue sont rendus en grille statique sur desktop et en carrousel Swiper sur mobile. Chaque carte est du HTML rendu côté serveur ; le JS du carrousel ne s'attache que sous le breakpoint mobile, donc les visiteurs desktop ne le payent pas.
 
-![Grille de témoignages — quatorze avis clients réels avec leurs prénoms](../../../assets/projects/eco-bbq-v2/testimonials.png)
+![Grille de témoignages — avis clients réels avec leurs prénoms](../../../assets/projects/eco-bbq-v2/testimonials.png)
 
 ## Carte des Revendeurs
 
@@ -49,3 +61,16 @@ Trois locales (`fr`, `en`, `nl`) avec le préfixe français conservé (`/fr/`, p
 ## Hébergement
 
 Build statique poussé sur l'hébergement mutualisé **Combell**. Pas de serveur, pas de base de données, pas d'API — le formulaire de contact part chez Formspree et le formulaire partenariat sur un autre endpoint Formspree, donc le site peut rester sur une infrastructure statique économique tout en captant des leads.
+
+## Ce qui a été livré
+
+- Réécriture complète en 33 jours et 35 commits (21 décembre 2024 → 23 janvier 2025)
+- Build divisé par presque trois : 30 Mo → 11 Mo (−63 %)
+- 7 pages HTML sur 3 locales, 61 points de vente sur la carte, 8 témoignages par langue, 9 logos partenaires
+- Deux entonnoirs de leads Formspree : contact grand public et partenariat B2B
+
+## Leçons
+
+- **Réécrire a coûté moins cher que rafistoler.** La v1 accumulait les correctifs de layout dus aux animations ; la v2 supprime GSAP, la page « story » et le carrousel tiers, et les bugs ont disparu avec la complexité.
+- **Un seul îlot hydraté suffit.** Seule la carte des revendeurs justifie du JavaScript de framework ; tout le reste est du HTML statique. Chaque ajout d'interactivité doit gagner sa place.
+- **Moins de bibliothèques, moins de bugs d'intégration.** Swiper en standalone remplace le carrousel Svelte tiers qui causait des problèmes en v1 — une dépendance éprouvée plutôt que deux fragiles.

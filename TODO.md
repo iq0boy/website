@@ -35,10 +35,10 @@ These files exist; the data inside them is fake. Until you fix it, half the site
 
 Carder is good. The other 7 are thin. Pick three to deepen.
 
-- [ ] **Sobeltax** — problem, constraints, architecture, outcome, lessons. Use the template in `src/content/projects/_template.md`.
-- [ ] **Altitude Music** — same depth as Carder.
-- [ ] **Eco-BBQ** — same depth as Carder.
-- [ ] For each, add `updatedDate: 2026-XX-XX` in frontmatter so the sitemap lifts it as `lastmod`.
+- [x] **Sobeltax** — problem (legacy `.awp` site), constraints (API-first, no local DB), outcome (66 pages, 560 commits/17 months), lessons (defensive coding vs external API). ×3 locales.
+- [x] **Altitude Music** — problem/constraints/outcome/lessons + new Sveltia CMS section (41 days, 11 tracks, hydration-boundary lesson). ×3 locales.
+- [x] **Eco-BBQ** — v1→v2 rewrite story (79 commits/20+ layout fixes → 33-day rewrite, build −63%). Fixed testimonial count (8/language, not 14). ×3 locales.
+- [x] For each, added `updatedDate: 2026-06-12` in frontmatter — verified `lastmod` appears in the built sitemap.
 
 ## P2 — Analytics & Search Console
 
@@ -75,7 +75,7 @@ SEO weight compounds. Two more posts per quarter is the minimum to keep the blog
 - [ ] **Service worker** — basic offline support since the manifest is already there. (Astro PWA integration; deferred.)
 - [x] **`Speakable` schema** on blog `Article` for voice-assistant readout.
 - [x] **`BreadcrumbList` on listing pages** — added on `/blog`, `/portfolio` and legal pages.
-- [ ] **Critical CSS inline** — Astro can do this with `inlineStylesheets: 'auto'` already; verify it's set.
+- [x] **Critical CSS inline** — `inlineStylesheets: 'auto'` is Astro's default; now set explicitly in `astro.config.mjs`.
 
 ## P3 — Outreach & authority
 
@@ -87,7 +87,7 @@ SEO weight compounds. Two more posts per quarter is the minimum to keep the blog
 ## P4 — Nice-to-haves
 
 - [ ] **Cookie banner** — only if you add analytics that drop cookies. Plausible doesn't, so skip until then.
-- [ ] **Theme system preference** — currently respects saved `jp-theme`; also fall back to `prefers-color-scheme`.
+- [x] **Theme system preference** — `prefers-color-scheme: light` fallback added in `Layout.astro` inline script + `getTheme()` in `src/lib/i18n.ts`; saved `jp-theme` still wins.
 - [ ] **Keyboard shortcut overlay** — `?` key opens a panel listing ⌘K, `/`, ESC, etc.
 - [ ] **Search-as-you-type on `/404.astro`** — embed Pagefind so a wrong URL still recovers.
 - [ ] **Hero animation** on home — micro-interaction that's identifiably yours.

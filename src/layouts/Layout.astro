@@ -124,7 +124,8 @@ const schemas = [websiteLd, ...userSchemas];
   <slot name="head" />
   <script is:inline>
     (function() {
-      var theme = localStorage.getItem('jp-theme') || 'dark';
+      var theme = localStorage.getItem('jp-theme')
+        || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
       document.documentElement.setAttribute('data-theme', theme);
     })();
   </script>
