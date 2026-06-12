@@ -12,6 +12,7 @@
     "blog:heroes": "node scripts/generate-blog-heroes.mjs",
     "indexnow": "node scripts/indexnow.mjs",
     "check:build": "node scripts/check-build.mjs",
+    "lhci": "lhci autorun",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
+    "@lhci/cli": "^0.15.1",
     "playwright": "^1.60.0",
     "typescript": "^6.0.3"
   }

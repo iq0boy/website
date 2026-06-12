@@ -67,7 +67,7 @@ SEO weight compounds. Two more posts per quarter is the minimum to keep the blog
 ## P3 — Technical polish
 
 - [x] **CI workflow** (.github/workflows/ci.yml): `astro check`, `astro build`, Pagefind sanity check on every PR, custom artifact-presence check.
-- [ ] **Lighthouse budget in CI** — `@lhci/cli` with budget that fails the build if LCP / CLS regress.
+- [x] **Lighthouse budget in CI** — `@lhci/cli` + `lighthouserc.json`: 4 URLs × 3 runs against `dist/`, fails on median LCP > 2.5s or CLS > 0.1 (desktop preset), warns under 0.9 perf score. Baseline 2026-06-12: LCP ~520-575ms, CLS 0.000, perf 1.00. Run locally with `CHROME_PATH=/usr/bin/chromium npm run lhci`. Reports uploaded as CI artifact.
 - [x] **`_headers` file** for Cloudflare/Netlify — long-cache for `/_astro/*`, OG images, manifest; short cache for HTML.
 - [x] **Per-locale OG images** — small `FR`/`EN`/`NL` chip in the top-right of the Satori output.
 - [x] **EN/NL fallback** — when a translation is missing, the page is generated with FR content + `canonical` and `availableLocales` set to FR only.

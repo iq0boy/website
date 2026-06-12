@@ -38,3 +38,14 @@ jobs:
 
       - name: Verify build artifacts
         run: node scripts/check-build.mjs
+
+      - name: Lighthouse budget
+        run: npx lhci autorun
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/reports
+          if-no-files-found: ignore
