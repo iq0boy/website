@@ -10,6 +10,8 @@ liveUrl: "https://holmes.nsmobile.be"
 
 Holmes est le service d'analytics maison de la plateforme Carder. Il expose un endpoint public `POST /api/hits/:client_id/:action_id` consommé par chaque page de carte NFC pour tracer les vues et les clics sur les liens ou badges — sans cookie, sans script tiers.
 
+![Page de connexion Holmes — accès admin et client protégé par session](../../../assets/projects/holmes/login.png)
+
 ## Architecture
 
 L'application est écrite entièrement en **Go 1.23**. La structure suit un découpage en couches classique, câblé par injection de dépendances via **Uber fx**.

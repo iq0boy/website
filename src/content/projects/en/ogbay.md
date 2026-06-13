@@ -9,6 +9,8 @@ color: "oklch(0.26 0.10 165)"
 
 Ogbay is a multi-tenant order and product catalogue management platform made up of three independent applications behind a shared Nginx reverse proxy.
 
+![Ogbay storefront — "Your wholesaler at any price", B2B & B2C hero with loyalty card](../../../assets/projects/ogbay/home.png)
+
 ## Architecture
 
 ```
@@ -44,7 +46,9 @@ Order state changes are published to the **Mercure hub**. The admin dashboard an
 
 ## Storefront (Astro 6)
 
-The public storefront is built with **Astro 6 SSR** and **Svelte 5** islands for interactivity. i18n routing covers French and Dutch. The UI uses **Tailwind 4 + DaisyUI 5**.
+The public storefront is built with **Astro 6 SSR** and **React 19** islands for interactivity. i18n routing covers French and Dutch. The UI uses **Tailwind 4 + DaisyUI 5**.
+
+![Storefront loyalty page — Bronze / Silver / Gold tiers, "€1 spent = 1 point"](../../../assets/projects/ogbay/fidelite.png)
 
 ## Admin Dashboard (SvelteKit 2)
 

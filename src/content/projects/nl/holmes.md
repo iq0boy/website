@@ -10,6 +10,8 @@ liveUrl: "https://holmes.nsmobile.be"
 
 Holmes is de eigen analytics-service van het Carder NFC-kaartjesplatform. Het biedt een publiek `POST /api/hits/:client_id/:action_id`-endpoint dat door elke kaartpagina wordt gebruikt om views en klikken op links of badges bij te houden — zonder cookies, zonder scripts van derden.
 
+![Holmes-inlogpagina — door sessies beveiligde admin- en klanttoegang](../../../assets/projects/holmes/login.png)
+
 ## Architectuur
 
 De applicatie is volledig geschreven in **Go 1.23**. De structuur volgt een klassieke gelaagde opbouw, samengebonden via dependency injection met **Uber fx**.

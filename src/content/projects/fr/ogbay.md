@@ -9,6 +9,8 @@ color: "oklch(0.26 0.10 165)"
 
 Ogbay est une plateforme multi-tenant de gestion des commandes et du catalogue produit, composée de trois applications indépendantes derrière un reverse proxy Nginx partagé.
 
+![Vitrine Ogbay — « Votre grossiste à tout prix », hero B2B & B2C avec carte de fidélité](../../../assets/projects/ogbay/home.png)
+
 ## Architecture
 
 ```
@@ -44,7 +46,9 @@ Les changements d'état des commandes sont publiés sur le **hub Mercure**. Le d
 
 ## Vitrine (Astro 6)
 
-La vitrine publique est construite en **Astro 6 SSR** avec des îles **Svelte 5** pour l'interactivité. Le routing i18n couvre le français et le néerlandais. L'UI utilise **Tailwind 4 + DaisyUI 5**.
+La vitrine publique est construite en **Astro 6 SSR** avec des îles **React 19** pour l'interactivité. Le routing i18n couvre le français et le néerlandais. L'UI utilise **Tailwind 4 + DaisyUI 5**.
+
+![Page fidélité de la vitrine — paliers Bronze / Argent / Or « 1 € dépensé = 1 point »](../../../assets/projects/ogbay/fidelite.png)
 
 ## Dashboard admin (SvelteKit 2)
 

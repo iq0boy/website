@@ -10,9 +10,13 @@ liveUrl: "https://www.it-school.be"
 
 iT.SCHOOL est une plateforme SaaS éditée par Keyros SA, conçue pour libérer les équipes administratives des établissements scolaires belges des tâches de gestion financière chronophages. Chaque école dispose de son propre environnement hébergé (un tenant, une URL), avec des interfaces dédiées aux élèves, parents, directeurs et personnels administratifs.
 
+![Page d'accueil iT.SCHOOL — « La gestion administrative et financière des établissements scolaires »](../../../assets/projects/itschool/home.png)
+
 > Les détails techniques de l'implémentation sont confidentiels et ne peuvent être divulgués.
 
 ## 6 pôles fondamentaux
+
+![Vue d'ensemble de la plateforme — les 6 pôles et les interfaces produit](../../../assets/projects/itschool/features.png)
 
 **Utilisateurs** — Fiche complète par profil (adresse, email, GSM, parents, responsable, matricule) pour étudiants, professeurs et personnel administratif, dans le respect du RGPD.
 
