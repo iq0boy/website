@@ -3,6 +3,7 @@ import { ClientRouter } from 'astro:transitions';
 import Nav from '../components/Nav';
 import FooterI18n from '../components/FooterI18n';
 import SearchModal from '../components/SearchModal';
+import ShortcutsOverlay from '../components/ShortcutsOverlay';
 import '../styles/global.css';
 import type { Lang } from '../lib/i18n';
 
@@ -135,6 +136,7 @@ const schemas = [websiteLd, ...userSchemas];
   <Nav currentPage={currentPage} lang={lang} client:load transition:persist />
   <slot />
   <SearchModal lang={lang} client:idle transition:persist />
+  <ShortcutsOverlay lang={lang} client:idle transition:persist />
   <FooterI18n lang={lang} client:visible />
 </body>
 </html>

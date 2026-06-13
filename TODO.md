@@ -90,7 +90,7 @@ SEO weight compounds. Two more posts per quarter is the minimum to keep the blog
 
 - [ ] **Cookie banner** — only if you add analytics that drop cookies. Plausible doesn't, so skip until then.
 - [x] **Theme system preference** — `prefers-color-scheme: light` fallback added in `Layout.astro` inline script + `getTheme()` in `src/lib/i18n.ts`; saved `jp-theme` still wins.
-- [ ] **Keyboard shortcut overlay** — `?` key opens a panel listing ⌘K, `/`, ESC, etc.
+- [x] **Keyboard shortcut overlay** — `?` opens `ShortcutsOverlay.tsx` (global island, i18n) listing ⌘K / `/` (search), Esc (close), `?` (this panel). Verified: `?` opens, Esc closes, `/` still opens search (no conflict).
 - [x] **Search-as-you-type on `/404.astro`** — added a "Rechercher sur le site (⌘K)" button that reuses the globally-mounted SearchModal via `window.__jpOpenSearch()`. Verified end-to-end: 404 → click → Pagefind modal → real results.
 - [ ] **Hero animation** on home — micro-interaction that's identifiably yours.
 
