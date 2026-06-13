@@ -48,6 +48,8 @@ Statuswijzigingen van bestellingen worden gepubliceerd op de **Mercure-hub**. He
 
 De publieke winkel is gebouwd met **Astro 6 SSR** en **React 19**-eilanden voor interactiviteit. i18n-routing dekt Frans en Nederlands. De UI gebruikt **Tailwind 4 + DaisyUI 5**.
 
+![“Waarom Ogbay”-pagina — waardepropositie en kerncijfers van de groothandel](../../../assets/projects/ogbay/pourquoi.png)
+
 ![Loyaliteitspagina van de winkel — niveaus Brons / Zilver / Goud, "€1 uitgegeven = 1 punt"](../../../assets/projects/ogbay/fidelite.png)
 
 ## Admindashboard (SvelteKit 2)

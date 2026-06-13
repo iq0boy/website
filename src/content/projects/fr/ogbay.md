@@ -48,6 +48,8 @@ Les changements d'état des commandes sont publiés sur le **hub Mercure**. Le d
 
 La vitrine publique est construite en **Astro 6 SSR** avec des îles **React 19** pour l'interactivité. Le routing i18n couvre le français et le néerlandais. L'UI utilise **Tailwind 4 + DaisyUI 5**.
 
+![Page « Pourquoi Ogbay » — proposition de valeur et chiffres clés du grossiste](../../../assets/projects/ogbay/pourquoi.png)
+
 ![Page fidélité de la vitrine — paliers Bronze / Argent / Or « 1 € dépensé = 1 point »](../../../assets/projects/ogbay/fidelite.png)
 
 ## Dashboard admin (SvelteKit 2)

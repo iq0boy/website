@@ -48,6 +48,8 @@ Order state changes are published to the **Mercure hub**. The admin dashboard an
 
 The public storefront is built with **Astro 6 SSR** and **React 19** islands for interactivity. i18n routing covers French and Dutch. The UI uses **Tailwind 4 + DaisyUI 5**.
 
+![“Why Ogbay” page — value proposition and the wholesaler's key figures](../../../assets/projects/ogbay/pourquoi.png)
+
 ![Storefront loyalty page — Bronze / Silver / Gold tiers, "€1 spent = 1 point"](../../../assets/projects/ogbay/fidelite.png)
 
 ## Admin Dashboard (SvelteKit 2)
