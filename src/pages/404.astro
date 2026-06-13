@@ -28,8 +28,25 @@ const lang = 'fr';
         style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; margin-bottom: 48px; max-width: 480px; margin-left: auto; margin-right: auto;"
       >
         Le lien est peut-être périmé, ou j'ai déplacé quelque chose sans laisser de
-        redirection. Voici quelques destinations qui existent vraiment :
+        redirection. Cherchez ce que vous vouliez, ou rejoignez une destination qui
+        existe vraiment :
       </p>
+      <button
+        id="search-404"
+        type="button"
+        class="btn-outline"
+        style="font-size: 0.9rem; padding: 14px 28px; margin-bottom: 32px; display: inline-flex; align-items: center; gap: 10px; cursor: pointer;"
+        aria-label="Rechercher sur le site"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        Rechercher sur le site
+        <kbd
+          style="font-family: var(--font-mono); font-size: 0.7rem; padding: 2px 6px; border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted);"
+        >⌘K</kbd>
+      </button>
       <div
         style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;"
       >
@@ -54,4 +71,15 @@ const lang = 'fr';
       </p>
     </div>
   </section>
+  <script is:inline>
+    // Reuse the globally-mounted SearchModal (⌘K) so a wrong URL can still recover.
+    (function () {
+      var btn = document.getElementById('search-404');
+      if (!btn) return;
+      btn.addEventListener('click', function open() {
+        if (window.__jpOpenSearch) window.__jpOpenSearch();
+        else setTimeout(open, 50); // modal hydrates client:idle; retry until ready
+      });
+    })();
+  </script>
 </Layout>
