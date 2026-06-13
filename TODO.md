@@ -18,7 +18,7 @@ Last refreshed: 2026-05-15
 These files exist; the data inside them is fake. Until you fix it, half the site is theatre.
 
 - [ ] **`src/lib/profile.ts`**
-  - [ ] `PROFILE.bookingUrl` → your real Cal.com / Calendly link
+  - [x] `PROFILE.bookingUrl` → real Cal.com link `https://cal.com/jpire/30min` (username `jpire`, looked up via the Cal.com API; only the public URL is stored, no key)
   - [ ] `STARTED_AT`, `PROJECT_COUNT`, `CLIENT_COUNT` → real-ish numbers (years is auto-computed)
   - [ ] `AVAILABILITY.status` + `nextSlotIso` → real status
   - [ ] `AVAILABILITY.lastUpdatedIso` → bump every time you tweak status

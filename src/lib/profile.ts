@@ -12,8 +12,9 @@ export const PROFILE = {
   email: 'josephpire.dev@gmail.com',
   github: 'https://github.com/iq0boy',
   githubHandle: 'iq0boy',
-  // Replace with your real Cal.com (or Calendly) URL — must be a public scheduling link.
-  bookingUrl: 'https://cal.com/josephpire/30min',
+  // Public Cal.com scheduling link (username `jpire`, 30-min event). Public by
+  // design — never put a `cal_live_*` API key here; this file is bundled to the client.
+  bookingUrl: 'https://cal.com/jpire/30min',
   // For when you publish a downloadable CV PDF in public/cv.pdf
   cvUrl: '/cv.pdf',
 } as const;
