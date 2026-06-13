@@ -5,7 +5,7 @@ pubDate: 2026-06-12
 category: 'AI'
 readTime: 10
 tags: ['Claude Code', 'AI', 'MCP', 'Workflow', 'Productivity']
-draft: true
+draft: false
 ---
 
 ![Cover image — Claude Code, level 2: MCP, skills, and persistent memory](../../../assets/blog/claude-code-mcp-skills-and-memory/hero.png)

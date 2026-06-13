@@ -5,7 +5,7 @@ pubDate: 2026-06-12
 category: 'Infrastructure'
 readTime: 9
 tags: ['Plausible', 'Analytics', 'Self-hosting', 'Docker', 'Caddy', 'GDPR']
-draft: true
+draft: false
 ---
 
 ![Cover image — Self-hosting Plausible on a €5 VPS](../../../assets/blog/self-hosting-plausible-on-a-5-euro-vps/hero.png)

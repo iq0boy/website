@@ -5,7 +5,7 @@ pubDate: 2026-06-12
 category: 'Engineering'
 readTime: 8
 tags: ['Drizzle', 'Prisma', 'ORM', 'TypeScript', 'PostgreSQL', 'SQLite']
-draft: true
+draft: false
 ---
 
 ![Coverbeeld — Drizzle vs Prisma in productie](../../../assets/blog/drizzle-vs-prisma-in-production/hero.png)

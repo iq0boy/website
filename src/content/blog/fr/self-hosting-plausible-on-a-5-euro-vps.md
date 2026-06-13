@@ -5,7 +5,7 @@ pubDate: 2026-06-12
 category: 'Infrastructure'
 readTime: 9
 tags: ['Plausible', 'Analytics', 'Self-hosting', 'Docker', 'Caddy', 'RGPD']
-draft: true
+draft: false
 ---
 
 ![Visuel d'en-tête — Auto-héberger Plausible sur un VPS à 5 €](../../../assets/blog/self-hosting-plausible-on-a-5-euro-vps/hero.png)
