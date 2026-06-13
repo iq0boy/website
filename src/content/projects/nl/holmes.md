@@ -39,6 +39,8 @@ Elke rij is gekoppeld aan `(client_id, action_id, month, year)`. Leesquery's agg
 
 ## Dashboard
 
+![Holmes-admindashboard — hits per client en per actie, gesorteerd op volume (clientnamen geanonimiseerd)](../../../assets/projects/holmes/dashboard.png)
+
 Twee toegangsniveaus beveiligd via **Gorilla Sessions**:
 
 - **Admin** — globaal overzicht van alle clients, gesorteerd op aflopend hitvolume

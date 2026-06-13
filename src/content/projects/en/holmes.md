@@ -39,6 +39,8 @@ Each entry is scoped to `(client_id, action_id, month, year)`. Read queries aggr
 
 ## Dashboard
 
+![Holmes admin dashboard — hits per client and per action, sorted by volume (client names anonymised)](../../../assets/projects/holmes/dashboard.png)
+
 Two access levels protected by **Gorilla Sessions**:
 
 - **Admin** — global view across all clients, sorted by descending hit volume

@@ -39,6 +39,8 @@ Chaque entrée est dimensionnée par `(client_id, action_id, month, year)`. Les 
 
 ## Dashboard
 
+![Dashboard admin Holmes — hits par client et par action, triés par volume (noms clients anonymisés)](../../../assets/projects/holmes/dashboard.png)
+
 Deux niveaux d'accès protégés par **Gorilla Sessions** :
 
 - **Admin** — vision globale sur tous les clients, triée par volume de hits décroissant
