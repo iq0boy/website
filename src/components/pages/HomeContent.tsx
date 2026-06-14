@@ -141,8 +141,20 @@ export default function HomeContent({ lang, featuredProjects }: { lang: Lang; fe
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 24 }}>
             {featuredProjects.map(p => (
               <a key={p.slug} href={lp(`/portfolio/${p.slug}`)} className="feat-card" style={{ display: 'block', textDecoration: 'none' }}>
-                <div className="feat-thumb" style={{ background: p.color, height: 340, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'oklch(0.7 0 0)' }}>
-                  [ project screenshot ]
+                <div className="feat-thumb" style={{ background: p.color, height: 340, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'oklch(0.7 0 0)', overflow: 'hidden' }}>
+                  {p.image ? (
+                    <img
+                      src={p.image.src}
+                      alt={p.title}
+                      width={p.image.width}
+                      height={p.image.height}
+                      loading="lazy"
+                      decoding="async"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }}
+                    />
+                  ) : (
+                    '[ project screenshot ]'
+                  )}
                 </div>
                 <div className="feat-overlay">
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 12 }}>

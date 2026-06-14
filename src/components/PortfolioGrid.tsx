@@ -10,6 +10,7 @@ export type ProjectItem = {
   tags: string[];
   year: string;
   color: string;
+  image?: { src: string; width: number; height: number };
 };
 
 function ProjectCard({ project, index, lang }: { project: ProjectItem; index: number; lang: Lang }) {
