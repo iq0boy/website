@@ -138,5 +138,15 @@ const schemas = [websiteLd, ...userSchemas];
   <SearchModal lang={lang} client:idle transition:persist />
   <ShortcutsOverlay lang={lang} client:idle transition:persist />
   <FooterI18n lang={lang} client:visible />
+  {import.meta.env.PROD && (
+    <script is:inline>
+      // Registered in production only, so dev assets are never cached.
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/sw.js').catch(function () {});
+        });
+      }
+    </script>
+  )}
 </body>
 </html>

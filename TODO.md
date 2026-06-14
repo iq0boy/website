@@ -74,7 +74,7 @@ SEO weight compounds. Two more posts per quarter is the minimum to keep the blog
 - [x] **Per-locale OG images** — small `FR`/`EN`/`NL` chip in the top-right of the Satori output.
 - [x] **EN/NL fallback** — when a translation is missing, the page is generated with FR content + `canonical` and `availableLocales` set to FR only.
 - [x] **Per-locale RSS feeds** — `/en/rss.xml` and `/nl/rss.xml` now generated; `Layout` emits per-locale `<link rel="alternate">`.
-- [ ] **Service worker** — basic offline support since the manifest is already there. (Astro PWA integration; deferred.)
+- [x] **Service worker** — `public/sw.js` + `public/offline.html`, registered prod-only from `Layout.astro`. Conservative strategy (no stale-HTML risk): HTML = network-first → cache → offline page; `/_astro/*` + fonts = cache-first; images = stale-while-revalidate; everything else passes through. Verified offline/online end-to-end with Playwright `setOffline`. Bump `VERSION` in sw.js to invalidate caches on a breaking deploy.
 - [x] **`Speakable` schema** on blog `Article` for voice-assistant readout.
 - [x] **`BreadcrumbList` on listing pages** — added on `/blog`, `/portfolio` and legal pages.
 - [x] **Critical CSS inline** — `inlineStylesheets: 'auto'` is Astro's default; now set explicitly in `astro.config.mjs`.
