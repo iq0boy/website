@@ -29,6 +29,11 @@
 /pagefind/*
   Cache-Control: public, max-age=86400, must-revalidate
 
+# Service worker — never cache the script itself, so a fixed/updated SW
+# reaches clients on the next visit instead of being pinned by HTTP cache.
+/sw.js
+  Cache-Control: no-cache
+
 # Everything else (HTML) — short cache so content updates ship fast.
 /*
   Cache-Control: public, max-age=300, must-revalidate
