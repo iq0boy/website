@@ -153,7 +153,7 @@ export default function HomeContent({ lang, featuredProjects }: { lang: Lang; fe
                       style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }}
                     />
                   ) : (
-                    '[ project screenshot ]'
+                    <span style={{ letterSpacing: '0.18em', textTransform: 'uppercase', color: 'oklch(0.75 0 0 / 0.6)' }}>{p.category}</span>
                   )}
                 </div>
                 <div className="feat-overlay">

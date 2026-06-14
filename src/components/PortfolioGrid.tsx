@@ -19,11 +19,23 @@ function ProjectCard({ project, index, lang }: { project: ProjectItem; index: nu
 
   return (
     <div ref={ref as any} className="reveal proj-card" style={{ transitionDelay: `${index * 0.08}s` }}>
-      <div className="proj-thumb" style={{ background: project.color, height: 320, position: 'relative' }}>
-        <div style={{
-          position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'oklch(0.7 0 0)',
-        }}>[ project screenshot ]</div>
+      <div className="proj-thumb" style={{ background: project.color, height: 320, position: 'relative', overflow: 'hidden' }}>
+        {project.image ? (
+          <img
+            src={project.image.src}
+            alt={project.title}
+            width={project.image.width}
+            height={project.image.height}
+            loading="lazy"
+            decoding="async"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }}
+          />
+        ) : (
+          <div style={{
+            position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontFamily: 'var(--font-mono)', fontSize: '0.72rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'oklch(0.8 0 0 / 0.55)',
+          }}>{project.category}</div>
+        )}
         <a href={localePath(lang, `/portfolio/${project.slug}`)} className="proj-overlay" style={{ textDecoration: 'none' }}>
           <span style={{
             padding: '12px 28px', border: '1px solid oklch(0.95 0 0)', color: 'oklch(0.95 0 0)',

@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import PortfolioContent from '../../components/pages/PortfolioContent';
 import { getCollection } from 'astro:content';
+import { coverFor } from '../../lib/projectCovers';
 import type { Lang } from '../../lib/i18n';
 
 export function getStaticPaths() {
@@ -14,17 +15,23 @@ export function getStaticPaths() {
 const { lang } = Astro.props;
 
 const allProjects = await getCollection('projects', ({ id }) => id.startsWith(`${lang}/`));
-const projects = allProjects
-  .sort((a, b) => b.data.year.localeCompare(a.data.year))
-  .map(p => ({
-    slug: p.id.split('/').slice(1).join('/').replace(/\.md$/, ''),
-    title: p.data.title,
-    excerpt: p.data.excerpt,
-    category: p.data.category,
-    tags: p.data.tags,
-    year: p.data.year,
-    color: p.data.color,
-  }));
+const projects = await Promise.all(
+  allProjects
+    .sort((a, b) => b.data.year.localeCompare(a.data.year))
+    .map(async p => {
+      const slug = p.id.split('/').slice(1).join('/').replace(/\.md$/, '');
+      return {
+        slug,
+        title: p.data.title,
+        excerpt: p.data.excerpt,
+        category: p.data.category,
+        tags: p.data.tags,
+        year: p.data.year,
+        color: p.data.color,
+        image: (await coverFor(slug)) ?? undefined,
+      };
+    }),
+);
 
 const titles: Record<Lang, string> = {
   fr: 'Projets — Joseph Pire',
