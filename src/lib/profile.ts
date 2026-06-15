@@ -38,6 +38,23 @@ export const AVAILABILITY = {
   lastUpdatedIso: '2026-05-14',
 } as const;
 
+// Legal identity for the footer mentions + the /legal, /privacy, /terms pages.
+// Belgian sole proprietor (personne physique) — Code de droit économique requires
+// the name, address and enterprise number to be permanently accessible.
+//
+// ⚠️ Fill `enterpriseNumber` and `address` (and `jurisdiction` for the legal pages).
+// Each empty field is simply omitted from the footer, so nothing half-filled ships.
+// For a personne physique the VAT number equals the enterprise number ("BE" + the
+// 10 digits), so a single value drives both the BCE and the TVA mention.
+export const LEGAL = {
+  legalName: 'Joseph Pire',
+  enterpriseNumber: '', // 'BE 0XXX.XXX.XXX' — from your BCE / Xerius extract
+  address: '', // registered seat — 'Rue …, 4000 Ville'
+  email: 'josephpire.dev@gmail.com',
+  vatRegime: 'normal' as 'normal' | 'franchise', // you're on the normal regime (21 %)
+  jurisdiction: '', // judicial district for /legal & /terms, e.g. 'Liège'
+} as const;
+
 // Logos shown in the "Worked with" band. Drop logo SVGs into src/assets/logos/<slug>.svg
 // (or .png) and reference them here. Until you have permission, you can leave the array empty —
 // the section will hide itself automatically.

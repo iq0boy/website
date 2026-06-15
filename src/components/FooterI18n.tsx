@@ -1,9 +1,24 @@
 import { useLang, localePath } from '../lib/i18n';
 import type { Lang } from '../lib/i18n';
+import { LEGAL } from '../lib/profile';
 
 export default function FooterI18n({ lang }: { lang: Lang }) {
   const { t } = useLang(lang);
   const lp = (path: string) => localePath(lang, path);
+
+  // Belgian/EU mandatory legal mentions. Each empty field is omitted, so the
+  // line stays clean until the real BCE number / address are filled in profile.ts.
+  const legalMention = [
+    LEGAL.legalName,
+    t('legal_status'),
+    LEGAL.enterpriseNumber && `${t('legal_company_no')} ${LEGAL.enterpriseNumber}`,
+    LEGAL.enterpriseNumber && `${t('legal_vat')} ${LEGAL.enterpriseNumber}`,
+    LEGAL.vatRegime === 'franchise' && t('legal_vat_franchise'),
+    LEGAL.address,
+    t('legal_country'),
+  ]
+    .filter(Boolean)
+    .join(' · ');
 
   const navLinks = [
     [t('nav_home'), lp('/')],
@@ -97,6 +112,9 @@ export default function FooterI18n({ lang }: { lang: Lang }) {
           </div>
           <p style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', fontSize: '0.7rem' }}>{t('built_with')}</p>
         </div>
+        <p style={{ marginTop: 24, color: 'var(--text-muted)', fontSize: '0.72rem', fontFamily: 'var(--font-mono)', lineHeight: 1.7 }}>
+          {legalMention}
+        </p>
       </div>
     </footer>
   );
