@@ -1,0 +1,14 @@
+# Netlify build configuration, version-controlled so deploys are reproducible
+# and don't depend on the dashboard UI settings.
+#
+# `npm run build` runs `astro build && pagefind --site dist` — the pagefind
+# step is required, or the search modal / ⌘K / 404 search recovery break.
+# HTTP headers and caching live in public/_headers (also honoured by Netlify).
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Matches the `engines.node` floor in package.json (>=22.12.0).
+  NODE_VERSION = "22.12.0"
