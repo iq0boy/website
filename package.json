@@ -10,6 +10,7 @@
     "build": "astro build && pagefind --site dist",
     "build:astro": "astro build",
     "blog:heroes": "node scripts/generate-blog-heroes.mjs",
+    "favicon": "node scripts/generate-favicon.mjs",
     "indexnow": "node scripts/indexnow.mjs",
     "check:build": "node scripts/check-build.mjs",
     "lhci": "lhci autorun",
