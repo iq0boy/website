@@ -8,10 +8,10 @@ Cette politique décrit comment les données personnelles sont collectées, util
 
 ## Responsable du traitement
 
-**{{REPLACE_ME — nom commercial}}** — entreprise individuelle de droit belge, basée en Belgique.
+**Joseph Pire** — entreprise individuelle de droit belge, basée en Belgique.
 
 - Email : [josephpire.dev@gmail.com](mailto:josephpire.dev@gmail.com)
-- Numéro d'entreprise : {{REPLACE_ME — BE 0XXX.XXX.XXX}}
+- Numéro d'entreprise : 1036.150.733
 
 ## Données collectées
 

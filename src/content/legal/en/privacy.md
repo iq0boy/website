@@ -8,10 +8,10 @@ This policy describes how personal data is collected, used and protected on **jo
 
 ## Data controller
 
-**{{REPLACE_ME — business name}}** — a sole proprietorship under Belgian law, based in Belgium.
+**Joseph Pire** — a sole proprietorship under Belgian law, based in Belgium.
 
 - Email: [josephpire.dev@gmail.com](mailto:josephpire.dev@gmail.com)
-- Belgian company number: {{REPLACE_ME — BE 0XXX.XXX.XXX}}
+- Belgian company number: 1036.150.733
 
 ## Data collected
 

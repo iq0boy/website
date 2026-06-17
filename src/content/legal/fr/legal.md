@@ -6,17 +6,17 @@ updatedDate: 2026-05-14
 
 ## Éditeur du site
 
-Ce site est édité par **{{REPLACE_ME — nom commercial ou nom et prénom}}**, entreprise individuelle de droit belge.
+Ce site est édité par **Joseph Pire**, entreprise individuelle de droit belge.
 
-- **Adresse du siège :** {{REPLACE_ME — adresse postale complète}}
-- **Numéro d'entreprise (BCE) :** {{REPLACE_ME — BE 0XXX.XXX.XXX}}
-- **Numéro de TVA :** {{REPLACE_ME — BE0XXXXXXXXX}}
+- **Adresse du siège :** Rue des Pommiers 12, 1348 Louvain-la-Neuve
+- **Numéro d'entreprise (BCE) :** 1036.150.733
+- **Numéro de TVA :** BE 1036.150.733
 - **Email de contact :** [josephpire.dev@gmail.com](mailto:josephpire.dev@gmail.com)
 - **Directeur de la publication :** Joseph Pire
 
 ## Hébergement
 
-Le site est hébergé chez **{{REPLACE_ME — nom de l'hébergeur, ex. Hetzner Online GmbH}}**, dont le siège social est situé à **{{REPLACE_ME — adresse de l'hébergeur, ex. Industriestr. 25, 91710 Gunzenhausen, Allemagne}}**.
+Le site est hébergé chez **Netlify, Inc.**, dont le siège social est situé à **2325 3rd Street, Suite 215, San Francisco, CA 94107, États-Unis**.
 
 ## Propriété intellectuelle
 
@@ -30,7 +30,7 @@ Le site peut contenir des liens vers des sites tiers. Joseph Pire ne contrôle p
 
 ## Droit applicable et juridiction
 
-Les présentes mentions légales sont régies par le droit belge. Tout litige relatif à l'utilisation du site sera soumis à la compétence exclusive des tribunaux de l'arrondissement judiciaire de **{{REPLACE_ME — ex. Bruxelles, Liège, Namur, etc.}}**.
+Les présentes mentions légales sont régies par le droit belge. Tout litige relatif à l'utilisation du site sera soumis à la compétence exclusive des tribunaux de l'arrondissement judiciaire de **Brabant wallon**.
 
 ## Médiation de la consommation
 

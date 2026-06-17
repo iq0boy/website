@@ -4,7 +4,7 @@ description: 'General terms of service of Joseph Pire — freelance full-stack d
 updatedDate: 2026-05-14
 ---
 
-These terms apply to any services provided by **{{REPLACE_ME — business name}}** ("the Provider") to a client ("the Client"), unless explicitly waived in a signed quote or contract.
+These terms apply to any services provided by **Joseph Pire** ("the Provider") to a client ("the Client"), unless explicitly waived in a signed quote or contract.
 
 ## 1. Scope
 
@@ -51,7 +51,7 @@ Neither party shall be liable for failure to perform its obligations in the even
 
 ## 10. Governing law and jurisdiction
 
-These terms are governed by **Belgian law**. Any dispute falls under the exclusive jurisdiction of the courts of the judicial district of **{{REPLACE_ME — e.g. Brussels, Liège, Namur}}**, subject to prior mediation agreement.
+These terms are governed by **Belgian law**. Any dispute falls under the exclusive jurisdiction of the courts of the judicial district of **Brabant wallon**, subject to prior mediation agreement.
 
 ---
 

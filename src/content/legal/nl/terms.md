@@ -4,7 +4,7 @@ description: 'Algemene dienstverleningsvoorwaarden van Joseph Pire — freelance
 updatedDate: 2026-05-14
 ---
 
-Deze algemene voorwaarden zijn van toepassing op alle diensten geleverd door **{{REPLACE_ME — handelsnaam}}** ("de Dienstverlener") aan een klant ("de Klant"), tenzij uitdrukkelijk anders overeengekomen in een ondertekende offerte of overeenkomst.
+Deze algemene voorwaarden zijn van toepassing op alle diensten geleverd door **Joseph Pire** ("de Dienstverlener") aan een klant ("de Klant"), tenzij uitdrukkelijk anders overeengekomen in een ondertekende offerte of overeenkomst.
 
 ## 1. Voorwerp
 
@@ -51,7 +51,7 @@ Geen van beide partijen is aansprakelijk voor een tekortkoming bij overmacht in 
 
 ## 10. Toepasselijk recht en bevoegde rechtbank
 
-Deze overeenkomst wordt beheerst door het **Belgisch recht**. Elk geschil valt onder de exclusieve bevoegdheid van de rechtbanken van het gerechtelijk arrondissement **{{REPLACE_ME — bv. Brussel, Luik, Namen}}**, behoudens voorafgaand bemiddelingsakkoord.
+Deze overeenkomst wordt beheerst door het **Belgisch recht**. Elk geschil valt onder de exclusieve bevoegdheid van de rechtbanken van het gerechtelijk arrondissement **Brabant wallon**, behoudens voorafgaand bemiddelingsakkoord.
 
 ---
 

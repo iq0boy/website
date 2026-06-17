@@ -6,17 +6,17 @@ updatedDate: 2026-05-14
 
 ## Uitgever
 
-Deze site wordt uitgegeven door **{{REPLACE_ME — handelsnaam}}**, een eenmanszaak naar Belgisch recht.
+Deze site wordt uitgegeven door **Joseph Pire**, een eenmanszaak naar Belgisch recht.
 
-- **Maatschappelijke zetel:** {{REPLACE_ME — volledig postadres}}
-- **Ondernemingsnummer (KBO):** {{REPLACE_ME — BE 0XXX.XXX.XXX}}
-- **Btw-nummer:** {{REPLACE_ME — BE0XXXXXXXXX}}
+- **Maatschappelijke zetel:** Rue des Pommiers 12, 1348 Louvain-la-Neuve
+- **Ondernemingsnummer (KBO):** 1036.150.733
+- **Btw-nummer:** BE 1036.150.733
 - **Contact-e-mail:** [josephpire.dev@gmail.com](mailto:josephpire.dev@gmail.com)
 - **Verantwoordelijke uitgever:** Joseph Pire
 
 ## Hosting
 
-Deze site wordt gehost door **{{REPLACE_ME — hostingprovider, bv. Hetzner Online GmbH}}**, met zetel te **{{REPLACE_ME — adres van de provider, bv. Industriestr. 25, 91710 Gunzenhausen, Duitsland}}**.
+Deze site wordt gehost door **Netlify, Inc.**, met zetel te **2325 3rd Street, Suite 215, San Francisco, CA 94107, Verenigde Staten**.
 
 ## Intellectuele eigendom
 
@@ -30,7 +30,7 @@ De site kan links naar websites van derden bevatten. Joseph Pire heeft geen cont
 
 ## Toepasselijk recht en bevoegde rechtbank
 
-Deze voorwaarden worden beheerst door Belgisch recht. Elk geschil dat voortvloeit uit het gebruik van de site valt onder de exclusieve bevoegdheid van de rechtbanken van het gerechtelijk arrondissement **{{REPLACE_ME — bv. Brussel, Luik, Namen}}**.
+Deze voorwaarden worden beheerst door Belgisch recht. Elk geschil dat voortvloeit uit het gebruik van de site valt onder de exclusieve bevoegdheid van de rechtbanken van het gerechtelijk arrondissement **Brabant wallon**.
 
 ## Consumentenbemiddeling
 

@@ -4,7 +4,7 @@ description: 'Conditions générales de prestation de services de Joseph Pire �
 updatedDate: 2026-05-14
 ---
 
-Ces conditions générales s'appliquent à toute prestation de services proposée par **{{REPLACE_ME — nom commercial}}** (« le Prestataire ») au profit d'un client (« le Client »), sauf dérogation écrite contraire dans un devis ou contrat signé.
+Ces conditions générales s'appliquent à toute prestation de services proposée par **Joseph Pire** (« le Prestataire ») au profit d'un client (« le Client »), sauf dérogation écrite contraire dans un devis ou contrat signé.
 
 ## 1. Objet
 
@@ -51,7 +51,7 @@ Aucune partie ne pourra être tenue responsable d'un manquement à ses obligatio
 
 ## 10. Droit applicable et juridiction
 
-Le présent contrat est régi par le **droit belge**. Tout litige sera soumis à la compétence exclusive des tribunaux de l'arrondissement judiciaire de **{{REPLACE_ME — ex. Bruxelles, Liège, Namur}}**, sauf accord de médiation préalable.
+Le présent contrat est régi par le **droit belge**. Tout litige sera soumis à la compétence exclusive des tribunaux de l'arrondissement judiciaire de **Brabant wallon**, sauf accord de médiation préalable.
 
 ---
 

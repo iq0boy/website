@@ -6,17 +6,17 @@ updatedDate: 2026-05-14
 
 ## Publisher
 
-This site is published by **{{REPLACE_ME — business name}}**, a sole proprietorship registered under Belgian law.
+This site is published by **Joseph Pire**, a sole proprietorship registered under Belgian law.
 
-- **Registered address:** {{REPLACE_ME — full postal address}}
-- **Belgian company number (BCE/KBO):** {{REPLACE_ME — BE 0XXX.XXX.XXX}}
-- **VAT number:** {{REPLACE_ME — BE0XXXXXXXXX}}
+- **Registered address:** Rue des Pommiers 12, 1348 Louvain-la-Neuve
+- **Belgian company number (BCE/KBO):** 1036.150.733
+- **VAT number:** BE 1036.150.733
 - **Contact email:** [josephpire.dev@gmail.com](mailto:josephpire.dev@gmail.com)
 - **Publication director:** Joseph Pire
 
 ## Hosting
 
-This site is hosted by **{{REPLACE_ME — hosting provider, e.g. Hetzner Online GmbH}}**, headquartered at **{{REPLACE_ME — provider address, e.g. Industriestr. 25, 91710 Gunzenhausen, Germany}}**.
+This site is hosted by **Netlify, Inc.**, headquartered at **2325 3rd Street, Suite 215, San Francisco, CA 94107, USA**.
 
 ## Intellectual property
 
@@ -30,7 +30,7 @@ The site may contain links to third-party websites. Joseph Pire does not control
 
 ## Governing law and jurisdiction
 
-These terms are governed by Belgian law. Any dispute arising from the use of this site falls under the exclusive jurisdiction of the courts of the judicial district of **{{REPLACE_ME — e.g. Brussels, Liège, Namur}}**.
+These terms are governed by Belgian law. Any dispute arising from the use of this site falls under the exclusive jurisdiction of the courts of the judicial district of **Brabant wallon**.
 
 ## Consumer mediation
 

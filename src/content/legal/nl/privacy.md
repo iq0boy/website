@@ -8,10 +8,10 @@ Dit beleid beschrijft hoe persoonsgegevens worden verzameld, gebruikt en bescher
 
 ## Verwerkingsverantwoordelijke
 
-**{{REPLACE_ME — handelsnaam}}** — eenmanszaak naar Belgisch recht, gevestigd in België.
+**Joseph Pire** — eenmanszaak naar Belgisch recht, gevestigd in België.
 
 - E-mail: [josephpire.dev@gmail.com](mailto:josephpire.dev@gmail.com)
-- Ondernemingsnummer: {{REPLACE_ME — BE 0XXX.XXX.XXX}}
+- Ondernemingsnummer: 1036.150.733
 
 ## Verzamelde gegevens
 

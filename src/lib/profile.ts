@@ -44,15 +44,11 @@ export const AVAILABILITY = {
 //
 // `enterpriseNumber` holds the bare BCE number (no country prefix); the footer
 // shows it as "BCE 1036.150.733" and, with a "BE" prefix, as the VAT number.
-// `address` is intentionally left empty for now: the postal address is legally
-// required, but Joseph doesn't want his private home address on the site. The
-// compliant privacy route is a separate professional/establishment address
-// (coworking or domiciliation registered as an unité d'établissement) — set it
-// here once available. Empty fields are simply omitted from the footer.
+// Empty fields are simply omitted from the footer.
 export const LEGAL = {
   legalName: 'Joseph Pire',
   enterpriseNumber: '1036.150.733', // BCE; VAT = BE 1036.150.733 (same digits)
-  address: '', // ⚠️ pending a non-home professional address (see note above)
+  address: 'Rue des Pommiers 12, 1348 Louvain-la-Neuve', // registered seat (home)
   email: 'josephpire.dev@gmail.com',
   vatRegime: 'normal' as 'normal' | 'franchise', // normal regime (21 %)
   jurisdiction: 'Brabant wallon', // judicial district for /legal & /terms (LLN)
