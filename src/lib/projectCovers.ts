@@ -11,8 +11,8 @@ import ogbay from '../assets/projects/ogbay/home.png';
 import listify from '../assets/projects/listify/dashboard.png';
 
 // Cover thumbnail per project slug, shown on the home + portfolio cards.
-// Note: eco-bbq's assets live under the eco-bbq-v2/ folder, and wwom has no
-// screenshots — projects without a cover fall back to their accent colour.
+// Note: eco-bbq's assets live under the eco-bbq-v2/ folder. A project without an
+// entry here falls back to its accent colour + category label on the card.
 const PROJECT_COVERS: Record<string, ImageMetadata> = {
   'altitude-music': altitudeMusic,
   carder,
