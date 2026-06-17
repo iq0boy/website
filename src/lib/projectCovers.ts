@@ -8,6 +8,7 @@ import sobeltax from '../assets/projects/sobeltax/home.png';
 import holmes from '../assets/projects/holmes/dashboard.png';
 import itschool from '../assets/projects/itschool/home.png';
 import ogbay from '../assets/projects/ogbay/home.png';
+import listify from '../assets/projects/listify/dashboard.png';
 
 // Cover thumbnail per project slug, shown on the home + portfolio cards.
 // Note: eco-bbq's assets live under the eco-bbq-v2/ folder, and wwom has no
@@ -20,6 +21,7 @@ const PROJECT_COVERS: Record<string, ImageMetadata> = {
   holmes,
   itschool,
   ogbay,
+  listify,
 };
 
 export type Cover = { src: string; width: number; height: number };
