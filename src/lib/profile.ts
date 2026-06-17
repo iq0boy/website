@@ -26,6 +26,11 @@ export const STATS = {
   // Removed "99% satisfaction" — there's no honest way to compute it and prospects spot it.
 } as const;
 
+// Projects featured on the home page, in display order. Slugs must match the
+// filenames in src/content/projects/<lang>/. Edit this to curate the home; the
+// full set still appears on /portfolio. (carder = the NFC "Tech Cards" product.)
+export const FEATURED_PROJECTS = ['ogbay', 'sobeltax', 'carder'] as const;
+
 // Availability — edit `nextSlotIso` to update the home + contact + /now badge in one place.
 // Use `status` to mark yourself:
 //   'open'        → green, accepting work now
