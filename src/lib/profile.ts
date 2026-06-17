@@ -42,17 +42,20 @@ export const AVAILABILITY = {
 // Belgian sole proprietor (personne physique) — Code de droit économique requires
 // the name, address and enterprise number to be permanently accessible.
 //
-// ⚠️ Fill `enterpriseNumber` and `address` (and `jurisdiction` for the legal pages).
-// Each empty field is simply omitted from the footer, so nothing half-filled ships.
-// For a personne physique the VAT number equals the enterprise number ("BE" + the
-// 10 digits), so a single value drives both the BCE and the TVA mention.
+// `enterpriseNumber` holds the bare BCE number (no country prefix); the footer
+// shows it as "BCE 1036.150.733" and, with a "BE" prefix, as the VAT number.
+// `address` is intentionally left empty for now: the postal address is legally
+// required, but Joseph doesn't want his private home address on the site. The
+// compliant privacy route is a separate professional/establishment address
+// (coworking or domiciliation registered as an unité d'établissement) — set it
+// here once available. Empty fields are simply omitted from the footer.
 export const LEGAL = {
   legalName: 'Joseph Pire',
-  enterpriseNumber: '', // 'BE 0XXX.XXX.XXX' — from your BCE / Xerius extract
-  address: '', // registered seat — 'Rue …, 4000 Ville'
+  enterpriseNumber: '1036.150.733', // BCE; VAT = BE 1036.150.733 (same digits)
+  address: '', // ⚠️ pending a non-home professional address (see note above)
   email: 'josephpire.dev@gmail.com',
-  vatRegime: 'normal' as 'normal' | 'franchise', // you're on the normal regime (21 %)
-  jurisdiction: '', // judicial district for /legal & /terms, e.g. 'Liège'
+  vatRegime: 'normal' as 'normal' | 'franchise', // normal regime (21 %)
+  jurisdiction: 'Brabant wallon', // judicial district for /legal & /terms (LLN)
 } as const;
 
 // Logos shown in the "Worked with" band. Drop logo SVGs into src/assets/logos/<slug>.svg

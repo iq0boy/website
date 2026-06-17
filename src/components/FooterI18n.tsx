@@ -12,7 +12,7 @@ export default function FooterI18n({ lang }: { lang: Lang }) {
     LEGAL.legalName,
     t('legal_status'),
     LEGAL.enterpriseNumber && `${t('legal_company_no')} ${LEGAL.enterpriseNumber}`,
-    LEGAL.enterpriseNumber && `${t('legal_vat')} ${LEGAL.enterpriseNumber}`,
+    LEGAL.enterpriseNumber && `${t('legal_vat')} BE ${LEGAL.enterpriseNumber}`,
     LEGAL.vatRegime === 'franchise' && t('legal_vat_franchise'),
     LEGAL.address,
     t('legal_country'),
