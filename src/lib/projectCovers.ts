@@ -2,7 +2,7 @@ import type { ImageMetadata } from 'astro';
 import { getImage } from 'astro:assets';
 
 import altitudeMusic from '../assets/projects/altitude-music/hero.png';
-import carder from '../assets/projects/carder/hero.png';
+import techCards from '../assets/projects/tech-cards/hero.png';
 import ecoBbq from '../assets/projects/eco-bbq-v2/hero.png';
 import sobeltax from '../assets/projects/sobeltax/home.png';
 import holmes from '../assets/projects/holmes/dashboard.png';
@@ -15,7 +15,7 @@ import listify from '../assets/projects/listify/dashboard.png';
 // entry here falls back to its accent colour + category label on the card.
 const PROJECT_COVERS: Record<string, ImageMetadata> = {
   'altitude-music': altitudeMusic,
-  carder,
+  'tech-cards': techCards,
   'eco-bbq': ecoBbq,
   sobeltax,
   holmes,

@@ -8,7 +8,7 @@ color: "oklch(0.27 0.09 48)"
 liveUrl: "https://holmes.nsmobile.be"
 ---
 
-Holmes est le service d'analytics maison de la plateforme Carder. Il expose un endpoint public `POST /api/hits/:client_id/:action_id` consommé par chaque page de carte NFC pour tracer les vues et les clics sur les liens ou badges — sans cookie, sans script tiers.
+Holmes est le service d'analytics maison de la plateforme Tech Cards. Il expose un endpoint public `POST /api/hits/:client_id/:action_id` consommé par chaque page de carte NFC pour tracer les vues et les clics sur les liens ou badges — sans cookie, sans script tiers.
 
 ![Page de connexion Holmes — accès admin et client protégé par session](../../../assets/projects/holmes/login.png)
 
@@ -54,4 +54,4 @@ Les origines CORS autorisées sont déclarées dans `config/cors.yaml`, recharg�
 
 ## Déploiement
 
-L'image Docker est déployée sur le même réseau Swarm que Carder, derrière **Caddy** (`holmes.nsmobile.be`). La base SQLite est persistée dans un volume `./database` monté en bind. Un pipeline **GitHub Actions** build et déploie l'image automatiquement à chaque push sur la branche principale.
+L'image Docker est déployée sur le même réseau Swarm que Tech Cards, derrière **Caddy** (`holmes.nsmobile.be`). La base SQLite est persistée dans un volume `./database` monté en bind. Un pipeline **GitHub Actions** build et déploie l'image automatiquement à chaque push sur la branche principale.

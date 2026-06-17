@@ -1,5 +1,5 @@
 ---
-title: 'Carder — Cartes de Visite NFC'
+title: 'Tech Cards — Cartes de Visite NFC'
 excerpt: 'SaaS multi-tenant de cartes de visite NFC : pages personnalisées par client, 20+ types de liens, système de badges, PWA installable et analytics sans cookies.'
 category: 'Web App'
 tags: ['Astro', 'React', 'Astro DB', 'Drizzle ORM', 'Tailwind', 'DaisyUI', 'Docker']
@@ -8,9 +8,9 @@ color: 'oklch(0.24 0.09 265)'
 liveUrl: 'https://nsmobile6k.be'
 ---
 
-Carder est une plateforme SaaS multi-tenant de cartes de visite NFC, déployée sous les domaines `nsmobile6k.be` et `techcard.be`. Chaque client dispose d'une page `/users/[slug]` entièrement personnalisée — logo, couleurs, liens, badges — accessible d'un simple effleurement de smartphone sur un support NFC.
+Tech Cards est une plateforme SaaS multi-tenant de cartes de visite NFC, déployée sous les domaines `nsmobile6k.be` et `techcard.be`. Chaque client dispose d'une page `/users/[slug]` entièrement personnalisée — logo, couleurs, liens, badges — accessible d'un simple effleurement de smartphone sur un support NFC.
 
-![Landing marketing Carder — « Révolutionnez votre business avec notre technologie NFC »](../../../assets/projects/carder/hero.png)
+![Landing marketing Tech Cards — « Révolutionnez votre business avec notre technologie NFC »](../../../assets/projects/tech-cards/hero.png)
 
 ## Architecture
 
@@ -32,13 +32,13 @@ Les sessions sont gérées avec le driver expérimental `fs-lite` d'Astro, persi
 
 La landing publique vend quatre supports NFC physiques — plaques, tags, stickers et cartes — tous adossés au même enregistrement de carte dans la plateforme.
 
-![Gamme produits — plaques, tags, stickers et cartes](../../../assets/projects/carder/products.png)
+![Gamme produits — plaques, tags, stickers et cartes](../../../assets/projects/tech-cards/products.png)
 
 ## Panel admin
 
 Les admins créent les slugs, gèrent les assets et nettoient le catalogue depuis un seul tableau de bord. Chaque carte dispose d'un formulaire `/cards/[slug]/edit` où le client (ou l'agence pour lui) configure tout ce qui suit.
 
-![Tableau admin des cartes avec le catalogue client complet](../../../assets/projects/carder/admin-cards.png)
+![Tableau admin des cartes avec le catalogue client complet](../../../assets/projects/tech-cards/admin-cards.png)
 
 ## Personnalisation par carte
 
@@ -56,7 +56,7 @@ La carte affiche jusqu'à **8 liens** sur une grille à 2 colonnes. Chaque lien 
 
 Les badges sont des boutons visuels associés à une image ou un logo, avec lien optionnel ou page dédiée `/users/[slug]/badges/[id]`. Les clients s'en servent pour afficher des certifications, des promos en cours, un menu ou du contenu média riche directement sur la carte.
 
-![Carte client en production — restaurant « Black and White » : 8 types de liens et 3 badges](../../../assets/projects/carder/card-view.png)
+![Carte client en production — restaurant « Black and White » : 8 types de liens et 3 badges](../../../assets/projects/tech-cards/card-view.png)
 
 ## PWA installable
 

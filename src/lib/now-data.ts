@@ -12,7 +12,7 @@ export const NOW = {
 
   // What you're actively building this week / month.
   building: [
-    { label: 'Carder — multi-tenant NFC card SaaS, v2 with badge marketplace' },
+    { label: 'Tech Cards — multi-tenant NFC card SaaS, v2 with badge marketplace' },
     { label: 'This site — three articles in, more in draft' },
   ],
 

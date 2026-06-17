@@ -1,5 +1,5 @@
 ---
-title: 'Carder — NFC Business Card Platform'
+title: 'Tech Cards — NFC Business Card Platform'
 excerpt: 'Multi-tenant SaaS for NFC business cards: per-client customised pages, 20+ link types, badge system, installable PWA, and cookieless analytics.'
 category: 'Web App'
 tags: ['Astro', 'React', 'Astro DB', 'Drizzle ORM', 'Tailwind', 'DaisyUI', 'Docker']
@@ -8,9 +8,9 @@ color: 'oklch(0.24 0.09 265)'
 liveUrl: 'https://nsmobile6k.be'
 ---
 
-Carder is a multi-tenant SaaS for NFC business cards, deployed under `nsmobile6k.be` and `techcard.be`. Each client gets a fully customised `/users/[slug]` page — logo, colours, links, badges — accessible with a single tap on any NFC-enabled smartphone.
+Tech Cards is a multi-tenant SaaS for NFC business cards, deployed under `nsmobile6k.be` and `techcard.be`. Each client gets a fully customised `/users/[slug]` page — logo, colours, links, badges — accessible with a single tap on any NFC-enabled smartphone.
 
-![Carder marketing landing — "Révolutionnez votre business avec notre technologie NFC"](../../../assets/projects/carder/hero.png)
+![Tech Cards marketing landing — "Révolutionnez votre business avec notre technologie NFC"](../../../assets/projects/tech-cards/hero.png)
 
 ## Architecture
 
@@ -32,13 +32,13 @@ Sessions use Astro's experimental `fs-lite` driver, persisted in a dedicated Doc
 
 The customer-facing landing markets four physical NFC supports — plaques, tags, stickers and cards — all backed by the same card record on the platform.
 
-![Product range — plaques, tags, stickers and cards](../../../assets/projects/carder/products.png)
+![Product range — plaques, tags, stickers and cards](../../../assets/projects/tech-cards/products.png)
 
 ## Admin panel
 
 Admins create card slugs, manage assets and prune the catalogue from a single dashboard. Each card has its own `/cards/[slug]/edit` form where the client (or the agency on their behalf) configures everything below.
 
-![Admin cards dashboard with the full client catalogue](../../../assets/projects/carder/admin-cards.png)
+![Admin cards dashboard with the full client catalogue](../../../assets/projects/tech-cards/admin-cards.png)
 
 ## Per-card customisation
 
@@ -56,7 +56,7 @@ A card can display up to **8 links** in a 2-column grid. Each link has one of 20
 
 Badges are visual buttons tied to an image or logo, with an optional URL or a dedicated sub-page at `/users/[slug]/badges/[id]`. Clients use them to showcase certifications, current promotions, menus or rich media content directly on the card.
 
-![Live customer card — "Black and White" restaurant: 8 link types and 3 badges](../../../assets/projects/carder/card-view.png)
+![Live customer card — "Black and White" restaurant: 8 link types and 3 badges](../../../assets/projects/tech-cards/card-view.png)
 
 ## Installable PWA
 

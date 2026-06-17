@@ -16,7 +16,7 @@ export const TESTIMONIALS: Testimonial[] = [
       'Joseph delivered our SaaS dashboard 3 weeks ahead of schedule, with a polish we hadn’t expected. Communication was tight throughout — no surprises, no scope creep.',
     author: 'Client Name',
     role: 'CTO',
-    project: 'Carder',
+    project: 'Tech Cards',
     placeholder: true,
   },
   {

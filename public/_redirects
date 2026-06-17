@@ -1,0 +1,7 @@
+# Netlify redirects. Honoured by Netlify (and Cloudflare Pages); ignored by the
+# Caddy VPS, which uses its own config.
+
+# Carder → Tech Cards rebrand (project slug renamed 2026-06). Keep old URLs alive.
+/portfolio/carder       /portfolio/tech-cards       301
+/en/portfolio/carder    /en/portfolio/tech-cards    301
+/nl/portfolio/carder    /nl/portfolio/tech-cards    301

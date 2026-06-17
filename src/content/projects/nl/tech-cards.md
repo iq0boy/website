@@ -1,5 +1,5 @@
 ---
-title: 'Carder — NFC Visitekaart Platform'
+title: 'Tech Cards — NFC Visitekaart Platform'
 excerpt: 'Multi-tenant SaaS voor NFC-visitekaarten: per-klant aangepaste paginas, 20+ link-types, badge-systeem, installeerbare PWA en cookieloze analytics.'
 category: 'Web App'
 tags: ['Astro', 'React', 'Astro DB', 'Drizzle ORM', 'Tailwind', 'DaisyUI', 'Docker']
@@ -8,9 +8,9 @@ color: 'oklch(0.24 0.09 265)'
 liveUrl: 'https://nsmobile6k.be'
 ---
 
-Carder is een multi-tenant SaaS voor NFC-visitekaarten, uitgerold onder `nsmobile6k.be` en `techcard.be`. Elke klant krijgt een volledig aangepaste `/users/[slug]`-pagina — logo, kleuren, links, badges — bereikbaar met één tik van een NFC-smartphone.
+Tech Cards is een multi-tenant SaaS voor NFC-visitekaarten, uitgerold onder `nsmobile6k.be` en `techcard.be`. Elke klant krijgt een volledig aangepaste `/users/[slug]`-pagina — logo, kleuren, links, badges — bereikbaar met één tik van een NFC-smartphone.
 
-![Carder marketing-landing — "Révolutionnez votre business avec notre technologie NFC"](../../../assets/projects/carder/hero.png)
+![Tech Cards marketing-landing — "Révolutionnez votre business avec notre technologie NFC"](../../../assets/projects/tech-cards/hero.png)
 
 ## Architectuur
 
@@ -32,13 +32,13 @@ Sessies gebruiken Astro's experimentele `fs-lite` driver, persistent gemaakt in 
 
 De publieke landing verkoopt vier fysieke NFC-dragers — plaques, tags, stickers en kaarten — allemaal gekoppeld aan hetzelfde kaart-record in het platform.
 
-![Productgamma — plaques, tags, stickers en kaarten](../../../assets/projects/carder/products.png)
+![Productgamma — plaques, tags, stickers en kaarten](../../../assets/projects/tech-cards/products.png)
 
 ## Admin-panel
 
 Admins maken slugs aan, beheren assets en ruimen de catalogus op vanaf één dashboard. Elke kaart heeft een eigen `/cards/[slug]/edit`-formulier waar de klant (of het bureau in zijn naam) alles hieronder configureert.
 
-![Admin-dashboard met de volledige klantencatalogus](../../../assets/projects/carder/admin-cards.png)
+![Admin-dashboard met de volledige klantencatalogus](../../../assets/projects/tech-cards/admin-cards.png)
 
 ## Per-kaart aanpassing
 
@@ -56,7 +56,7 @@ Een kaart toont maximaal **8 links** in een 2-koloms raster. Elke link is van é
 
 Badges zijn visuele knoppen gekoppeld aan een afbeelding of logo, met een optionele URL of een dedicated subpagina op `/users/[slug]/badges/[id]`. Klanten gebruiken ze om certificaten, lopende promo's, een menu of rijke media direct op de kaart te tonen.
 
-![Live klantkaart — restaurant "Black and White": 8 link-types en 3 badges](../../../assets/projects/carder/card-view.png)
+![Live klantkaart — restaurant "Black and White": 8 link-types en 3 badges](../../../assets/projects/tech-cards/card-view.png)
 
 ## Installeerbare PWA
 
