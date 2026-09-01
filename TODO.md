@@ -22,7 +22,7 @@ These files exist; the data inside them is fake. Until you fix it, half the site
   - [ ] `STARTED_AT`, `PROJECT_COUNT`, `CLIENT_COUNT` → real-ish numbers (years is auto-computed)
   - [ ] `AVAILABILITY.status` + `nextSlotIso` → real status
   - [ ] `AVAILABILITY.lastUpdatedIso` → bump every time you tweak status
-- [ ] **`src/lib/testimonials.ts`** — collect 2-3 real quotes, set `placeholder: false`. Until then the placeholder banner shows. Suggested outreach script:
+- [ ] **`src/lib/testimonials.ts`** — collect 2-3 real quotes. ⚠️ The three fake ones signed "Client Name" were **live in production** until 2026-09-01; the array is now empty and the whole section hides itself, so the site no longer shows invented quotes. Adding the first real quote brings the section back. Suggested outreach script:
   > "Quick favour: would you write 2 sentences about working with me? I'm refreshing my site. Anything honest is fine — I'd rather have real than glowing."
 - [ ] **`src/lib/now-data.ts`** — replace the building / reading / learning / listening / saying-no-to entries with what's actually true. Bump `lastUpdatedIso`.
 - [ ] **Client logos**
@@ -42,7 +42,9 @@ Carder is good. The other 7 are thin. Pick three to deepen.
 
 ## P2 — Analytics & Search Console
 
-- [ ] **Plausible self-hosted** — add it to the VPS (per your own blog post), configure `josephpire.dev` site, paste the script tag in `Layout.astro` head.
+- [x] **Umami self-hosted** — ✅ live at `https://stats.josephpire.dev` (2026-09-01). Swarm stack in the private repo `iq0boy/umami`, behind `caddy-docker-proxy`; whole stack idles at ~220 MB. Beacon wired in `Layout.astro` (production builds only) and allowed in `script-src` + `connect-src`; verified in a browser that it loads and sends. ⚠️ The rationale I first gave was wrong: the VPS has **15 GB RAM / 8 vCPU**, not the "5 €" box the blog post claims, so Plausible would have fit. Umami was kept for simplicity (one datastore, ~28 containers already on the machine), not necessity.
+- [ ] ~~Umami self-hosted~~ (decided 2026-09-01, replaces Plausible) — Plausible CE needs PostgreSQL **and ClickHouse**, and ClickHouse alone wants ~700 MB idle / ~2 GB recommended. Putting that on the 5 € VPS that already serves `holmes.nsmobile.be` risks OOM-killing a client-facing app to count portfolio pageviews. Umami is Node + Postgres only, cookieless and GDPR-clean, ~10× lighter. Steps: deploy on the VPS behind Caddy → add the beacon to `Layout.astro` → **add its origin to `script-src` + `connect-src` in `scripts/generate-csp.mjs`** (otherwise the beacon is silently blocked in production) → re-run `scripts/check-csp.mjs`.
+- [ ] ~~Plausible self-hosted~~ — rejected on resource grounds, see above. Plausible Cloud (9 €/mo, EU-hosted) stays the fallback if self-hosting turns into a maintenance burden.
 - [ ] **Google Search Console** — verify ownership via DNS TXT, submit `sitemap-index.xml`.
 - [ ] **Bing Webmaster Tools** — same (Bing is small but free CTR).
 - [x] **IndexNow** — key generated (`873a5f9649e0286de0fe2c8a5d59b424`), saved at `public/873a5f9649e0286de0fe2c8a5d59b424.txt`, embedded in `scripts/indexnow.mjs`. Run `npm run build && npm run indexnow` after each deploy. Key can be rotated via the `INDEXNOW_KEY` env var.
@@ -54,7 +56,7 @@ SEO weight compounds. Two more posts per quarter is the minimum to keep the blog
 - [x] Draft more blog post topics in `src/content/blog/_template.md` style — **written as `draft: true` ×3 locales, awaiting your factual review before flipping to `draft: false`**:
   - [x] "Drizzle vs Prisma in production: 12 months later" — grounded in carder/booker (Drizzle) vs reporter (Prisma 5 + Postgres)
   - [x] ~~"I stopped using shadcn/ui"~~ — **removed at your request** (replaced by the Claude Code post below)
-  - [x] "Self-hosting Plausible on a 5€ VPS: end-to-end" — ⚠️ publish only AFTER actually installing Plausible (P2 item above); it's written as the guide for that task
+  - [ ] ~~"Self-hosting Plausible on a 5€ VPS: end-to-end"~~ — **unpublished 2026-09-01** (`draft: true` ×3 locales). It was published on 2026-06-12 describing, in the first person, an install that never happened ("voici l'installation complète sur le VPS…", "surveille `docker stats` la première semaine", "sur 8 Go tout passe" — for a 5 € box). Its ~3 months of indexed URLs now 302 to `/blog` via `public/_redirects`. **Replacement to write from the real Umami install**: "I wanted Plausible on a 5 € VPS, ClickHouse didn't fit, I shipped Umami" — a better post than the tutorial it replaces, and true. Repoint the three redirects when it ships.
   - [x] "Claude Code, level 2: MCP, skills, and persistent memory" — follow-up to the existing `claude-code-workflow` post; covers MCP servers, skills, memory/handoffs, sub-agents. Grounded in this session's real usage (Obsidian MCP, Explore agents mining client repos, chrome-devtools screenshots). Cross-links the original.
   - [x] (infra) `draft: true` posts are now excluded from build/RSS/search in production, visible in `npm run dev`
 - [ ] **`/cv` page** — HTML version + downloadable `/cv.pdf` (drop the file into `public/`). `PROFILE.cvUrl` already wired.
@@ -78,6 +80,7 @@ SEO weight compounds. Two more posts per quarter is the minimum to keep the blog
 - [x] **`Speakable` schema** on blog `Article` for voice-assistant readout.
 - [x] **`BreadcrumbList` on listing pages** — added on `/blog`, `/portfolio` and legal pages.
 - [x] **Critical CSS inline** — `inlineStylesheets: 'auto'` is Astro's default; now set explicitly in `astro.config.mjs`.
+- [x] **Content-Security-Policy** — generated at build time by `scripts/generate-csp.mjs` and injected into `_headers`. Allowlists inline scripts **by sha256 hash, not `'unsafe-inline'`** (7 hashes, 4 of them Astro's hydration bootstrappers — hence generated, so an Astro upgrade can't silently break hydration). Carries `'wasm-unsafe-eval'` for Pagefind, `font-src data:` for the Vite-inlined @fontsource faces, Web3Forms in `connect-src`, Cal.com in `frame-src`. Verified in a real browser with `scripts/check-csp.mjs` (0 violations across home / search+WASM / View Transitions / `/book` / 404 / all 3 locales); guarded by `check-build.mjs` + a CI smoke test. Local: `node scripts/serve-csp.mjs 4399 && node scripts/check-csp.mjs`.
 
 ## P3 — Outreach & authority
 
