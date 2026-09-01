@@ -5,3 +5,12 @@
 /portfolio/carder       /portfolio/tech-cards       301
 /en/portfolio/carder    /en/portfolio/tech-cards    301
 /nl/portfolio/carder    /nl/portfolio/tech-cards    301
+
+# Plausible self-hosting post unpublished 2026-09-01: it was written in the first
+# person as a completed install that never happened, and the stack has since been
+# switched to Umami. Sending its ~3 months of indexed traffic to /blog rather than
+# a 404 until the replacement post ships.
+# ⚠️ Repoint these three at the Umami post once it is published.
+/blog/self-hosting-plausible-on-a-5-euro-vps        /blog       302
+/en/blog/self-hosting-plausible-on-a-5-euro-vps     /en/blog    302
+/nl/blog/self-hosting-plausible-on-a-5-euro-vps     /nl/blog    302
