@@ -81,9 +81,28 @@ Consequences to keep in mind:
   `node scripts/serve-csp.mjs 4399` then `node scripts/check-csp.mjs`.
 - Adding any new third-party origin (analytics, embeds, fonts, a form endpoint)
   requires a matching directive, or it is blocked in production with no fallback.
-  `connect-src` currently allows Web3Forms and `frame-src` allows Cal.com.
+  Currently allowed: Web3Forms and the Umami beacon in `connect-src`, the Umami
+  beacon in `script-src`, Cal.com in `frame-src`.
+- `check-build.mjs` extracts the origin of every `<script src="https://…">` in
+  the built HTML and fails if one is missing from `script-src`. That is the
+  drift worth catching automatically: a blocked beacon logs nothing on the site
+  and simply produces an empty dashboard weeks later.
 - `scripts/check-build.mjs` asserts the policy is present and hasn't regressed;
   CI additionally runs the browser smoke test.
+
+### Analytics
+
+Self-hosted Umami at `stats.josephpire.dev` (repo `iq0boy/umami`, deployed to the
+VPS). Cookieless, so there is no consent banner to add. Config lives in
+`ANALYTICS` in `src/lib/profile.ts`; the beacon is emitted from `Layout.astro`
+for **production builds only**, so `astro dev` never pollutes the stats.
+
+The origin is duplicated in `scripts/generate-csp.mjs` (`ANALYTICS_ORIGIN`) and
+must stay in both `script-src` and `connect-src` — the tracker loads
+`/script.js` and POSTs each pageview to `/api/send`. `check-build.mjs` fails the
+build if the two ever disagree, and `check-csp.mjs` proves in a real browser
+that the script loads and the send request is permitted (it stubs `/api/send`,
+so running the check does not create fake pageviews).
 
 ### Environment variables
 

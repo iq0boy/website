@@ -1,8 +1,8 @@
 // Post-build sanity check. Fails CI if expected outputs are missing.
 // Add to this list whenever you commit a feature that ships a build artifact.
 
-import { existsSync, statSync, readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { existsSync, statSync, readFileSync, readdirSync } from 'node:fs';
+import { resolve, join } from 'node:path';
 
 const ROOT = resolve(process.cwd(), 'dist');
 
@@ -40,8 +40,41 @@ function checkCsp() {
   if (/script-src[^;]*'unsafe-inline'/.test(csp)) problems.push("script-src regressed to 'unsafe-inline'");
   if (!/'wasm-unsafe-eval'/.test(csp)) problems.push("script-src lost 'wasm-unsafe-eval' — Pagefind search would break");
   if (!/font-src[^;]*data:/.test(csp)) problems.push('font-src lost `data:` — inlined @fontsource faces would be blocked');
+
+  // Every external script the pages actually load must be allowed by script-src.
+  // This is the drift that costs the most to find by hand: the analytics beacon
+  // is blocked with no console error on the site and no data in the dashboard,
+  // so nothing looks broken until someone checks the numbers weeks later.
+  const scriptSrc = csp.match(/script-src ([^;]+)/)?.[1] ?? '';
+  for (const origin of externalScriptOrigins()) {
+    if (!scriptSrc.includes(origin)) {
+      problems.push(`${origin} is loaded as a <script> in the build but is not in script-src — it would be blocked silently`);
+    } else {
+      console.log(`✓ ${origin} allowed in script-src`);
+    }
+  }
+
   if (!problems.length) console.log(`✓ Content-Security-Policy (${hashes} script hashes)`);
   return problems;
+}
+
+// Origins of every `<script src="https://…">` across the built HTML.
+function externalScriptOrigins() {
+  const origins = new Set();
+  const walk = dir => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const full = join(dir, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (entry.name.endsWith('.html')) {
+        const html = readFileSync(full, 'utf-8');
+        for (const [, url] of html.matchAll(/<script[^>]+src="(https?:\/\/[^"]+)"/g)) {
+          origins.add(new URL(url).origin);
+        }
+      }
+    }
+  };
+  walk(ROOT);
+  return [...origins];
 }
 
 let failures = 0;

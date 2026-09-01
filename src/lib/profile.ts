@@ -43,6 +43,20 @@ export const AVAILABILITY = {
   lastUpdatedIso: '2026-05-14',
 } as const;
 
+// Self-hosted Umami analytics. Cookieless, so no consent banner is required.
+// Loaded from Layout.astro in production builds only, so local development
+// never pollutes the stats.
+//
+// ⚠️ `origin` is duplicated in scripts/generate-csp.mjs, which must allow it in
+// BOTH script-src and connect-src. Changing it here alone gets the beacon
+// blocked in production with no visible error — the dashboard just stays empty.
+// scripts/check-build.mjs fails the build if the two ever disagree.
+export const ANALYTICS = {
+  origin: 'https://stats.josephpire.dev',
+  scriptPath: '/script.js',
+  websiteId: 'd533c8d9-c3fc-4721-ac2b-7ce3144ac237',
+} as const;
+
 // Legal identity for the footer mentions + the /legal, /privacy, /terms pages.
 // Belgian sole proprietor (personne physique) — Code de droit économique requires
 // the name, address and enterprise number to be permanently accessible.

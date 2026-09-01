@@ -41,6 +41,12 @@ async function collectHashes() {
   return { hashes: [...hashes].sort(), pages };
 }
 
+// Self-hosted Umami. Must match ANALYTICS.origin in src/lib/profile.ts — the
+// beacon needs script-src (to load /script.js) AND connect-src (it POSTs each
+// pageview to /api/send). Miss either and it fails silently: no console error
+// on the site, no data in the dashboard. check-build.mjs asserts the two agree.
+const ANALYTICS_ORIGIN = 'https://stats.josephpire.dev';
+
 function buildPolicy(hashes) {
   return [
     `default-src 'self'`,
@@ -50,7 +56,7 @@ function buildPolicy(hashes) {
     `form-action 'self'`,
     // 'wasm-unsafe-eval' is required by Pagefind, which runs its search index
     // through WebAssembly. It permits WASM compilation only — not eval().
-    `script-src 'self' 'wasm-unsafe-eval' ${hashes.join(' ')}`,
+    `script-src 'self' 'wasm-unsafe-eval' ${ANALYTICS_ORIGIN} ${hashes.join(' ')}`,
     // Unavoidable: the React components style themselves with inline style={{…}}
     // objects throughout. Far lower risk than inline script.
     `style-src 'self' 'unsafe-inline'`,
@@ -60,7 +66,7 @@ function buildPolicy(hashes) {
     // base64 data URIs. Verified by scripts/check-csp.mjs.
     `font-src 'self' data:`,
     // Web3Forms receives the /contact and /start form submissions (fetch POST).
-    `connect-src 'self' https://api.web3forms.com`,
+    `connect-src 'self' https://api.web3forms.com ${ANALYTICS_ORIGIN}`,
     // The Cal.com booking widget on /book is embedded in an iframe.
     `frame-src https://cal.com https://app.cal.com`,
     `manifest-src 'self'`,

@@ -81,6 +81,33 @@ await step('View Transitions navigation (script hashes after swap)', async () =>
   console.log('  now at:', page.url());
 });
 
+await step('Umami beacon loads and is allowed to send', async () => {
+  // The beacon is emitted for production builds only, so a `npm run build`
+  // output has it and `astro dev` does not.
+  let sendAttempted = false;
+  let scriptLoaded = false;
+
+  // Intercepting /api/send proves connect-src allows it — a CSP-blocked request
+  // never reaches Playwright's network layer at all — while keeping localhost
+  // test traffic out of the real dashboard.
+  await page.route('**/api/send', async route => {
+    sendAttempted = true;
+    await route.fulfill({ status: 200, contentType: 'text/plain', body: 'ok' });
+  });
+  page.on('response', r => {
+    if (r.url().includes('stats.josephpire.dev') && r.url().endsWith('/script.js') && r.ok()) scriptLoaded = true;
+  });
+
+  await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
+  await page.waitForTimeout(2500);
+
+  console.log('  script.js loaded (script-src):', scriptLoaded);
+  console.log('  /api/send reached the network (connect-src):', sendAttempted);
+  if (!scriptLoaded) violations.push('Umami script.js did not load — script-src is blocking it');
+  if (!sendAttempted) violations.push('Umami never sent a pageview — connect-src is blocking /api/send');
+  await page.unroute('**/api/send');
+});
+
 await step('shortcuts overlay (?)', async () => {
   await page.keyboard.press('?');
   await page.waitForTimeout(500);
