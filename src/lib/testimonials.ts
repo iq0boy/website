@@ -1,6 +1,13 @@
-// Replace these placeholders with real client quotes before going live.
-// Anything where `placeholder: true` is set will NOT appear in the JSON-LD
-// `Review` schema, only on-page — keeps Google from indexing fake reviews.
+// Real client quotes only. Anything with `placeholder: true` is kept out of the
+// JSON-LD `Review` schema (never index fake reviews) — but note that placeholders
+// are still *visible on the page*, so an empty array is the honest default.
+//
+// The section hides itself entirely while this array is empty (see Testimonials.tsx),
+// so adding the first real quote is all it takes to bring it back.
+//
+// Outreach script that works:
+//   "Quick favour: would you write 2 sentences about working with me? I'm
+//    refreshing my site. Anything honest is fine — I'd rather have real than glowing."
 
 export interface Testimonial {
   quote: string;
@@ -11,29 +18,13 @@ export interface Testimonial {
 }
 
 export const TESTIMONIALS: Testimonial[] = [
-  {
-    quote:
-      'Joseph delivered our SaaS dashboard 3 weeks ahead of schedule, with a polish we hadn’t expected. Communication was tight throughout — no surprises, no scope creep.',
-    author: 'Client Name',
-    role: 'CTO',
-    project: 'Tech Cards',
-    placeholder: true,
-  },
-  {
-    quote:
-      'The redesign moved the needle on our conversion within two weeks of launch. He understood the business goal, not just the brief.',
-    author: 'Client Name',
-    role: 'Founder',
-    project: 'Sobeltax',
-    placeholder: true,
-  },
-  {
-    quote:
-      'Rare combination of design instinct and technical depth. Our team learned a lot just from his pull request reviews.',
-    author: 'Client Name',
-    role: 'Engineering Lead',
-    placeholder: true,
-  },
+  // Shape to follow — drop real quotes in here and the section reappears:
+  // {
+  //   quote: '…',
+  //   author: 'Firstname Lastname',
+  //   role: 'CTO',
+  //   project: 'Sobeltax',
+  // },
 ];
 
 export function buildReviewLd(siteUrl: string) {
