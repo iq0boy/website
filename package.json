@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pagefind --site dist",
+    "build": "astro build && pagefind --site dist && node scripts/generate-csp.mjs",
     "build:astro": "astro build",
     "blog:heroes": "node scripts/generate-blog-heroes.mjs",
     "favicon": "node scripts/generate-favicon.mjs",
@@ -15,7 +15,8 @@
     "check:build": "node scripts/check-build.mjs",
     "lhci": "lhci autorun",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "csp": "node scripts/generate-csp.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.4",

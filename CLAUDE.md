@@ -61,6 +61,30 @@ Beyond translations, this module also exports reusable React hooks:
 - `useReveal(threshold)` / `useRevealEffect()` — IntersectionObserver-based scroll reveal
 - `useAnimatedCounter(end)` — count-up animation on scroll into view
 
+### Content-Security-Policy
+
+The CSP is **generated at build time**, not hand-written. `npm run build` runs
+`scripts/generate-csp.mjs`, which scans `dist/**/*.html`, sha256-hashes every inline
+`<script>`, and substitutes them into the `# {{CSP}}` marker in `public/_headers`.
+
+This exists because the policy allowlists inline scripts **by hash instead of
+`'unsafe-inline'`** — and four of those seven hashes belong to Astro's own hydration
+bootstrappers (`client:load` / `client:idle` / `client:visible`). Hard-coding them
+would mean total, silent JS breakage the next time Astro is upgraded.
+
+Consequences to keep in mind:
+
+- Don't hand-edit the `Content-Security-Policy` line in `public/_headers`; edit the
+  directive list in `scripts/generate-csp.mjs`. Leave the `# {{CSP}}` marker alone —
+  the build fails loudly if it disappears.
+- `astro preview` does **not** apply `_headers`. To exercise the real policy locally:
+  `node scripts/serve-csp.mjs 4399` then `node scripts/check-csp.mjs`.
+- Adding any new third-party origin (analytics, embeds, fonts, a form endpoint)
+  requires a matching directive, or it is blocked in production with no fallback.
+  `connect-src` currently allows Web3Forms and `frame-src` allows Cal.com.
+- `scripts/check-build.mjs` asserts the policy is present and hasn't regressed;
+  CI additionally runs the browser smoke test.
+
 ### Environment variables
 
 Copy `.env.example` to `.env` and fill in:

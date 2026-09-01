@@ -33,8 +33,26 @@ jobs:
       - name: Pagefind index
         run: npx pagefind --site dist
 
+      - name: Generate Content-Security-Policy
+        run: node scripts/generate-csp.mjs
+
       - name: Verify build artifacts
         run: node scripts/check-build.mjs
+
+      # The CSP allowlists inline scripts by hash, so a dependency bump that
+      # changes Astro's hydration runtime, or a new third-party origin, breaks
+      # the site silently. Exercise the real policy in a real browser.
+      - name: Install Chromium for the CSP smoke test
+        run: npx playwright install --with-deps chromium
+
+      - name: CSP smoke test
+        run: |
+          node scripts/serve-csp.mjs 4399 &
+          for i in $(seq 1 30); do
+            curl -sf -o /dev/null http://localhost:4399/ && break
+            sleep 1
+          done
+          node scripts/check-csp.mjs
 
       - name: Lighthouse budget
         run: npx lhci autorun

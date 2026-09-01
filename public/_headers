@@ -37,6 +37,11 @@
 # Everything else (HTML) — short cache so content updates ship fast.
 /*
   Cache-Control: public, max-age=300, must-revalidate
+  # The Content-Security-Policy is injected on the line below at build time by
+  # scripts/generate-csp.mjs, which hashes the inline scripts in dist/**.html
+  # (Astro's hydration bootstrappers included) so we can avoid 'unsafe-inline'.
+  # Leave this marker alone — the build fails loudly if it goes missing.
+  # {{CSP}}
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
