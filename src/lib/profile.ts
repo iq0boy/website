@@ -37,10 +37,10 @@ export const FEATURED_PROJECTS = ['ogbay', 'sobeltax', 'tech-cards'] as const;
 //   'limited'     → amber, accepting future bookings only
 //   'closed'      → red, not accepting work
 export const AVAILABILITY = {
-  status: 'limited' as 'open' | 'limited' | 'closed',
+  status: 'open' as 'open' | 'limited' | 'closed',
   // ISO date of the earliest moment you can start a new project. Set to null when status is 'open'.
-  nextSlotIso: '2026-09-01',
-  lastUpdatedIso: '2026-05-14',
+  nextSlotIso: null as string | null,
+  lastUpdatedIso: '2026-09-02',
 } as const;
 
 // Self-hosted Umami analytics. Cookieless, so no consent banner is required.
