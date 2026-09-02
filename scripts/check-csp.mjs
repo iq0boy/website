@@ -24,6 +24,31 @@ const browser = await chromium.launch();
 const ctx = await browser.newContext();
 const page = await ctx.newPage();
 
+// Stubbed for the WHOLE run, not just the beacon step: every later navigation
+// would otherwise post a real pageview, and running this check against
+// production would quietly inject headless traffic into the dashboard.
+const LOCAL = /^https?:\/\/(localhost|127\.0\.0\.1)/.test(BASE);
+let beaconSendAttempted = false;
+let beaconScriptLoaded = false;
+
+// Umami sends pageviews with navigator.sendBeacon(), which page.route() cannot
+// intercept — stubbing alone still let real hits through when this ran against
+// production. Against any non-local target we therefore disable the tracker at
+// the source with Umami's own opt-out flag, and fall back to asserting
+// connect-src from the served header instead of from an observed request.
+if (!LOCAL) {
+  await ctx.addInitScript(() => {
+    try { localStorage.setItem('umami.disabled', '1'); } catch {}
+  });
+}
+await page.route('**/api/send', async route => {
+  beaconSendAttempted = true;
+  await route.fulfill({ status: 200, contentType: 'text/plain', body: 'ok' });
+});
+page.on('response', r => {
+  if (r.url().includes('/script.js') && r.url().includes('stats.') && r.ok()) beaconScriptLoaded = true;
+});
+
 page.on('console', m => {
   const t = m.text();
   const from = m.location()?.url ?? '';
@@ -40,7 +65,14 @@ page.on('pageerror', e => {
 page.on('requestfailed', r => {
   const u = r.url();
   if (THIRD_PARTY.test(u)) return void thirdParty.push(u.slice(0, 100));
-  failed.push(`[${u}] ${r.failure()?.errorText}`);
+  // astro.config has prefetchAll: true, so a <link rel=prefetch> for the page we
+  // are about to click gets aborted by the navigation itself (resourceType
+  // 'other'). Only same-origin aborts are ignored, and a CSP block would surface
+  // as a console violation regardless — it is not hidden by this.
+  const sameOrigin = u.startsWith(BASE);
+  const aborted = r.failure()?.errorText === 'net::ERR_ABORTED';
+  if (aborted && sameOrigin && ['document', 'other'].includes(r.resourceType())) return;
+  failed.push(`[${u}] ${r.failure()?.errorText} (type=${r.resourceType()})`);
 });
 
 const step = async (name, fn) => { console.log(`\n▶ ${name}`); await fn(); };
@@ -82,30 +114,24 @@ await step('View Transitions navigation (script hashes after swap)', async () =>
 });
 
 await step('Umami beacon loads and is allowed to send', async () => {
-  // The beacon is emitted for production builds only, so a `npm run build`
-  // output has it and `astro dev` does not.
-  let sendAttempted = false;
-  let scriptLoaded = false;
-
-  // Intercepting /api/send proves connect-src allows it — a CSP-blocked request
-  // never reaches Playwright's network layer at all — while keeping localhost
-  // test traffic out of the real dashboard.
-  await page.route('**/api/send', async route => {
-    sendAttempted = true;
-    await route.fulfill({ status: 200, contentType: 'text/plain', body: 'ok' });
-  });
-  page.on('response', r => {
-    if (r.url().includes('stats.josephpire.dev') && r.url().endsWith('/script.js') && r.ok()) scriptLoaded = true;
-  });
-
+  // Emitted for production builds only, so a `npm run build` output has it and
+  // `astro dev` does not. The /api/send stub installed above stays in place.
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
   await page.waitForTimeout(2500);
 
-  console.log('  script.js loaded (script-src):', scriptLoaded);
-  console.log('  /api/send reached the network (connect-src):', sendAttempted);
-  if (!scriptLoaded) violations.push('Umami script.js did not load — script-src is blocking it');
-  if (!sendAttempted) violations.push('Umami never sent a pageview — connect-src is blocking /api/send');
-  await page.unroute('**/api/send');
+  console.log('  script.js loaded (script-src):', beaconScriptLoaded);
+  console.log('  /api/send reached the network (connect-src):', beaconSendAttempted);
+  if (!beaconScriptLoaded) violations.push('Umami script.js did not load — script-src is blocking it');
+  if (LOCAL) {
+    if (!beaconSendAttempted) violations.push('Umami never sent a pageview — connect-src is blocking /api/send');
+  } else {
+    // Tracker deliberately opted out above, so no send is expected. Assert the
+    // permission from the header the target actually serves.
+    const csp = (await (await fetch(BASE)).headers.get('content-security-policy')) ?? '';
+    const ok = /connect-src[^;]*stats\./.test(csp);
+    console.log('  /api/send: tracker opted out (remote target); connect-src allows it in the served header:', ok);
+    if (!ok) violations.push('connect-src in the served CSP does not allow the Umami origin');
+  }
 });
 
 await step('shortcuts overlay (?)', async () => {
