@@ -9,6 +9,7 @@ import holmes from '../assets/projects/holmes/dashboard.png';
 import itschool from '../assets/projects/itschool/home.png';
 import ogbay from '../assets/projects/ogbay/home.png';
 import listify from '../assets/projects/listify/dashboard.png';
+import laure from '../assets/projects/laure-au-bout-des-doigts/accueil.png';
 
 // Cover thumbnail per project slug, shown on the home + portfolio cards.
 // Note: eco-bbq's assets live under the eco-bbq-v2/ folder. A project without an
@@ -22,6 +23,7 @@ const PROJECT_COVERS: Record<string, ImageMetadata> = {
   itschool,
   ogbay,
   listify,
+  'laure-au-bout-des-doigts': laure,
 };
 
 export type Cover = { src: string; width: number; height: number };
