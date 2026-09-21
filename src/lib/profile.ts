@@ -29,7 +29,7 @@ export const STATS = {
 // Projects featured on the home page, in display order. Slugs must match the
 // filenames in src/content/projects/<lang>/. Edit this to curate the home; the
 // full set still appears on /portfolio.
-export const FEATURED_PROJECTS = ['ogbay', 'sobeltax', 'tech-cards'] as const;
+export const FEATURED_PROJECTS = ['laure-au-bout-des-doigts', 'ogbay', 'sobeltax', 'tech-cards'] as const;
 
 // Availability — edit `nextSlotIso` to update the home + contact + /now badge in one place.
 // Use `status` to mark yourself:

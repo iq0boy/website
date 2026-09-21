@@ -364,6 +364,21 @@ textarea { resize: vertical; min-height: 120px; }
 .proj-card:hover .proj-title { color: var(--accent); }
 
 /* Featured work cards (home) */
+/* Featured projects on the home page.
+   `auto-fit` cannot express "two columns from tablet up" here: with four cards,
+   the minmax value that yields 2 columns at 1440px (560px) collapses to a single
+   1060px-wide column between 768px and 1180px, and the value that behaves at
+   those widths (400px) gives 3 columns at 1440px — leaving a fourth card orphaned
+   on its own row. An explicit breakpoint is the honest tool for a fixed 2x2. */
+.feat-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 720px) {
+  .feat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 .feat-card {
   position: relative;
   overflow: hidden;

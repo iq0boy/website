@@ -138,7 +138,7 @@ export default function HomeContent({ lang, featuredProjects }: { lang: Lang; fe
           <h2 className="heading-lg reveal" style={{ marginBottom: 64 }}>
             {t('portfolio')}<span style={{ color: 'var(--accent)' }}>.</span>
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', gap: 24 }}>
+          <div className="feat-grid">
             {featuredProjects.map(p => (
               <a key={p.slug} href={lp(`/portfolio/${p.slug}`)} className="feat-card" style={{ display: 'block', textDecoration: 'none' }}>
                 <div className="feat-thumb" style={{ background: p.color, height: 340, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'oklch(0.7 0 0)', overflow: 'hidden' }}>
